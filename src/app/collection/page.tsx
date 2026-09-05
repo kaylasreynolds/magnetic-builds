@@ -14,14 +14,13 @@ export default async function CollectionPage() {
     return (
       <section className="collection-shell collection-empty">
         <div>
-          <p className="eyebrow">My Collection</p>
           <h1>Start your collection</h1>
           <p>
             Add the magnetic tile sets you own and Magnetic Builds will keep track of the pieces for you.
           </p>
         </div>
-        <button className="primary-action" type="button" disabled title="Add-set editing arrives in Slice 3">
-          + Add your first set
+        <button className="primary-action primary-action-disabled" type="button" disabled>
+          + Add your first set · Coming next
         </button>
         <p className="collection-helper">We’ll use your collection to show what you can build.</p>
       </section>
@@ -42,8 +41,7 @@ export default async function CollectionPage() {
     <section className="collection-shell">
       <div className="collection-hero">
         <div>
-          <p className="eyebrow">My Collection</p>
-          <h1>{collection.collectionName}</h1>
+          <h1>My Collection</h1>
           <p className="collection-subtitle">More sets. More builds. More play.</p>
         </div>
 
@@ -53,12 +51,12 @@ export default async function CollectionPage() {
           <div className="stat-card"><strong>{totalPieceTypes}</strong><span>Types</span></div>
         </div>
 
-        <button className="primary-action" type="button" disabled title="Add-set editing arrives in Slice 3">
-          + Add a Set
+        <button className="primary-action primary-action-disabled" type="button" disabled>
+          + Add a Set · Coming next
         </button>
       </div>
 
-      <section className="collection-section" aria-labelledby="owned-sets-heading">
+      <section className="collection-section owned-sets-section" aria-labelledby="owned-sets-heading">
         <div className="section-heading-row">
           <div>
             <p className="section-kicker">Your Sets</p>
@@ -92,9 +90,7 @@ export default async function CollectionPage() {
         <div>
           <p className="section-kicker">Builds You Can Make</p>
           <h2 id="builds-heading">Your collection is ready.</h2>
-          <p>
-            Build matching is coming next. Magnetic Builds will use your collection to show which builds you can make with the pieces you already own.
-          </p>
+          <p>Build matching is coming next. We’ll use the pieces you already own to show what you can build.</p>
         </div>
       </section>
 
