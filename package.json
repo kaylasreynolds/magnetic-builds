@@ -9,18 +9,17 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx src/db/migrate.ts",
-    "db:seed": "tsx src/db/seed.ts",
-    "db:reset": "tsx src/db/reset.ts"
+    "db:migrate:local": "wrangler d1 migrations apply magnetic-builds-production --local --config wrangler.toml --persist-to .wrangler/state",
+    "db:migrate": "wrangler d1 migrations apply magnetic-builds-production --remote --config wrangler.toml"
   },
   "dependencies": {
-    "@libsql/client": "^0.15.15",
     "drizzle-orm": "^0.44.5",
     "next": "^16.2.12",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260903.0",
     "@eslint/eslintrc": "^3.3.1",
     "@types/node": "^22.20.1",
     "@types/react": "^19.1.12",
@@ -28,7 +27,6 @@
     "drizzle-kit": "^0.31.4",
     "eslint": "^9.35.0",
     "eslint-config-next": "^16.2.12",
-    "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "wrangler": "^4.33.2"
   },
