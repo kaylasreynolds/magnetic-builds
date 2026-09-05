@@ -5,6 +5,7 @@ import {
   inventoryAdjustments,
   ownedSets,
   pieceDefinitions,
+  pieceFamilies,
   setContents,
   sets,
   userCollections,
@@ -23,6 +24,7 @@ export type CollectionSetSummary = {
 export type CollectionPieceSummary = {
   pieceDefinitionId: string;
   pieceName: string;
+  pieceFamilyName: string;
   color: string | null;
   fromSets: number;
   adjustment: number;
@@ -79,19 +81,22 @@ export async function getPrimaryCollectionOverview(
     .select({
       pieceDefinitionId: pieceDefinitions.id,
       pieceName: pieceDefinitions.name,
+      pieceFamilyName: pieceFamilies.name,
       color: setContents.color,
       quantity: sql<number>`sum(${ownedSets.quantity} * coalesce(${setContents.quantity}, 0))`,
     })
     .from(ownedSets)
     .innerJoin(setContents, eq(setContents.setId, ownedSets.setId))
     .innerJoin(pieceDefinitions, eq(setContents.pieceDefinitionId, pieceDefinitions.id))
+    .innerJoin(pieceFamilies, eq(pieceDefinitions.pieceFamilyId, pieceFamilies.id))
     .where(eq(ownedSets.userCollectionId, collection.id))
-    .groupBy(pieceDefinitions.id, pieceDefinitions.name, setContents.color);
+    .groupBy(pieceDefinitions.id, pieceDefinitions.name, pieceFamilies.name, setContents.color);
 
   const adjustments = await db
     .select({
       pieceDefinitionId: inventoryAdjustments.pieceDefinitionId,
       pieceName: pieceDefinitions.name,
+      pieceFamilyName: pieceFamilies.name,
       color: inventoryAdjustments.color,
       quantityDelta: sql<number>`sum(${inventoryAdjustments.quantityDelta})`,
     })
@@ -100,10 +105,12 @@ export async function getPrimaryCollectionOverview(
       pieceDefinitions,
       eq(inventoryAdjustments.pieceDefinitionId, pieceDefinitions.id),
     )
+    .innerJoin(pieceFamilies, eq(pieceDefinitions.pieceFamilyId, pieceFamilies.id))
     .where(eq(inventoryAdjustments.userCollectionId, collection.id))
     .groupBy(
       inventoryAdjustments.pieceDefinitionId,
       pieceDefinitions.name,
+      pieceFamilies.name,
       inventoryAdjustments.color,
     );
 
@@ -114,6 +121,7 @@ export async function getPrimaryCollectionOverview(
     inventoryMap.set(inventoryKey(row.pieceDefinitionId, row.color), {
       pieceDefinitionId: row.pieceDefinitionId,
       pieceName: row.pieceName,
+      pieceFamilyName: row.pieceFamilyName,
       color: row.color,
       fromSets: fromSetsQuantity,
       adjustment: 0,
@@ -135,6 +143,7 @@ export async function getPrimaryCollectionOverview(
     inventoryMap.set(key, {
       pieceDefinitionId: row.pieceDefinitionId,
       pieceName: row.pieceName,
+      pieceFamilyName: row.pieceFamilyName,
       color: row.color,
       fromSets: 0,
       adjustment,
@@ -143,6 +152,8 @@ export async function getPrimaryCollectionOverview(
   }
 
   const inventory = [...inventoryMap.values()].sort((a, b) => {
+    const byFamily = a.pieceFamilyName.localeCompare(b.pieceFamilyName);
+    if (byFamily !== 0) return byFamily;
     const byName = a.pieceName.localeCompare(b.pieceName);
     return byName !== 0 ? byName : (a.color ?? "").localeCompare(b.color ?? "");
   });
