@@ -1,9 +1,76 @@
 :root { color-scheme: light; font-family: ui-rounded, system-ui, sans-serif; color: #17231d; background: #f7f4eb; }
 * { box-sizing: border-box; }
 body { margin: 0; }
+a { color: inherit; }
+button, input { font: inherit; }
 header { padding: 1.25rem max(1.5rem, calc((100vw - 52rem) / 2)); border-bottom: 1px solid #d9d5c8; background: #fffdf7; }
 main { max-width: 52rem; margin: 0 auto; padding: 6rem 1.5rem; }
 h1 { max-width: 12ch; margin: .25rem 0 1rem; font-size: clamp(2.6rem, 7vw, 5rem); line-height: .95; letter-spacing: -.055em; }
 p { max-width: 42rem; font-size: 1.15rem; line-height: 1.65; }
 .eyebrow { color: #c5492d; font-size: .8rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
 .note { margin-top: 2rem; padding: 1rem; border-left: 4px solid #e9a23b; background: #fffaf0; font-size: .95rem; }
+
+.collection-shell { display: grid; gap: 1.25rem; }
+.collection-shell h1 { max-width: none; margin-bottom: .5rem; font-size: clamp(2.35rem, 11vw, 4rem); }
+.collection-shell h2, .collection-shell h3, .collection-shell p { margin-top: 0; }
+.collection-shell h2 { margin-bottom: .35rem; font-size: 1.25rem; letter-spacing: -.025em; }
+.collection-shell h3 { margin-bottom: .25rem; font-size: 1rem; line-height: 1.2; }
+.collection-shell p { font-size: .98rem; line-height: 1.5; }
+.collection-hero { display: grid; gap: 1rem; padding-bottom: .5rem; }
+.collection-subtitle { margin-bottom: 0; color: #65736b; }
+.collection-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; }
+.stat-card { display: grid; gap: .1rem; min-width: 0; padding: .9rem .65rem; border: 1px solid #e6e1d5; border-radius: 1rem; background: #fffdf8; text-align: center; }
+.stat-card strong { font-size: 1.35rem; }
+.stat-card span { color: #718077; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+.primary-action, .secondary-action { min-height: 3rem; display: inline-flex; align-items: center; justify-content: center; border-radius: .95rem; font-weight: 800; text-decoration: none; }
+.primary-action { width: 100%; border: 0; padding: .85rem 1rem; background: #17231d; color: #fffdf8; }
+.primary-action:disabled { opacity: 1; cursor: default; }
+.secondary-action { width: fit-content; border: 1px solid #d9d5c8; padding: .75rem .95rem; background: #fffdf8; }
+.collection-section { border: 1px solid #e4dfd3; border-radius: 1.35rem; background: #fffdf8; padding: 1.1rem; box-shadow: 0 14px 35px rgba(52, 45, 28, .05); }
+.section-heading-row, .piece-group-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
+.section-kicker { margin-bottom: .2rem !important; color: #c5492d; font-size: .72rem !important; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.set-card-scroller { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(13.5rem, 78%); gap: .8rem; margin: .9rem -1.1rem -.15rem; padding: 0 1.1rem .35rem; overflow-x: auto; scroll-snap-type: x proximity; }
+.set-card { display: grid; grid-template-columns: 5.2rem 1fr; gap: .85rem; align-items: center; min-height: 7.5rem; padding: .85rem; border: 1px solid #e8e3d7; border-radius: 1rem; background: #faf8f1; scroll-snap-align: start; }
+.set-art { position: relative; height: 5.25rem; border-radius: .8rem; background: #efece3; overflow: hidden; }
+.tile { position: absolute; display: block; border: 4px solid currentColor; background: color-mix(in srgb, currentColor 18%, transparent); opacity: .85; }
+.tile-square { width: 2.2rem; height: 2.2rem; left: .7rem; bottom: .7rem; color: #d46642; transform: rotate(-8deg); }
+.tile-triangle { width: 0; height: 0; right: .65rem; top: .65rem; border-left: 1.25rem solid transparent; border-right: 1.25rem solid transparent; border-bottom: 2.2rem solid #e4a33d; background: transparent; }
+.tile-small { width: 1.7rem; height: 1.7rem; right: .85rem; bottom: .7rem; color: #4c9a87; transform: rotate(9deg); }
+.set-card-copy { min-width: 0; }
+.set-card-copy p { margin-bottom: 0; color: #6b776f; font-size: .82rem; }
+.set-brand { margin-bottom: .25rem !important; color: #8b5a45 !important; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: .68rem !important; }
+.build-callout { display: grid; grid-template-columns: auto 1fr; gap: .9rem; align-items: start; background: #fff8e9; }
+.build-callout p:last-child { margin-bottom: 0; color: #667169; }
+.build-icon { display: grid; place-items: center; width: 2.7rem; height: 2.7rem; border-radius: .85rem; background: #f5d996; font-size: 1.15rem; }
+.collection-details { display: grid; gap: .8rem; }
+.collection-details p { margin-bottom: 0; color: #6a776f; }
+.collection-empty { align-content: start; min-height: 60vh; }
+.collection-helper { color: #6a776f; font-size: .9rem !important; }
+.back-link { width: fit-content; color: #59665f; font-size: .9rem; font-weight: 800; text-decoration: none; }
+.inventory-header { display: grid; gap: .35rem; }
+.piece-groups { display: grid; gap: .85rem; }
+.piece-group { border: 1px solid #e4dfd3; border-radius: 1.15rem; background: #fffdf8; overflow: hidden; }
+.piece-group-heading { padding: 1rem 1rem .8rem; }
+.piece-group-heading h2 { margin-bottom: 0; }
+.piece-group-heading > strong { font-size: 1.4rem; }
+.piece-list { border-top: 1px solid #eee9df; }
+.piece-row { display: grid; grid-template-columns: 2.2rem 1fr auto; gap: .75rem; align-items: center; padding: .8rem 1rem; }
+.piece-row + .piece-row { border-top: 1px solid #f0ece4; }
+.piece-symbol { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: .7rem; background: #f1eee6; color: #4c9a87; font-size: 1.2rem; }
+.piece-row-copy, .piece-count { display: grid; gap: .1rem; }
+.piece-row-copy span, .piece-count span { color: #758179; font-size: .75rem; }
+.piece-count { justify-items: end; }
+
+@media (max-width: 36rem) {
+  header { padding: 1rem 1.1rem; }
+  main { padding: 2rem 1rem 4rem; }
+}
+
+@media (min-width: 44rem) {
+  .collection-shell { gap: 1.5rem; }
+  .collection-hero { grid-template-columns: 1fr auto; align-items: end; }
+  .collection-hero > .collection-stats { grid-column: 1 / -1; }
+  .collection-hero > .primary-action { width: auto; min-width: 10rem; }
+  .set-card-scroller { grid-auto-columns: minmax(15rem, 31%); }
+  .collection-details { grid-template-columns: 1fr auto; align-items: center; }
+}
