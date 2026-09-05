@@ -1,16 +1,10 @@
-SELECT 'brands' AS entity, COUNT(*) AS count FROM brands
-UNION ALL
-SELECT 'piece_families', COUNT(*) FROM piece_families
-UNION ALL
-SELECT 'piece_definitions', COUNT(*) FROM piece_definitions
-UNION ALL
-SELECT 'sets', COUNT(*) FROM sets
-UNION ALL
-SELECT 'set_contents', COUNT(*) FROM set_contents
-UNION ALL
-SELECT 'user_collections', COUNT(*) FROM user_collections
-UNION ALL
-SELECT 'owned_sets', COUNT(*) FROM owned_sets;
+SELECT COUNT(*) AS brands_count FROM brands;
+SELECT COUNT(*) AS piece_families_count FROM piece_families;
+SELECT COUNT(*) AS piece_definitions_count FROM piece_definitions;
+SELECT COUNT(*) AS sets_count FROM sets;
+SELECT COUNT(*) AS set_contents_count FROM set_contents;
+SELECT COUNT(*) AS user_collections_count FROM user_collections;
+SELECT COUNT(*) AS owned_sets_count FROM owned_sets;
 
 SELECT
   s.name AS set_name,
