@@ -19,8 +19,8 @@ export default async function CollectionPage() {
             Add the magnetic tile sets you own and Magnetic Builds will keep track of the pieces for you.
           </p>
         </div>
-        <button className="primary-action primary-action-disabled" type="button" disabled>
-          + Add your first set · Coming next
+        <button className="primary-action" type="button" disabled title="Add-set editing arrives in Slice 3">
+          + Add your first set
         </button>
         <p className="collection-helper">We’ll use your collection to show what you can build.</p>
       </section>
@@ -51,8 +51,8 @@ export default async function CollectionPage() {
           <div className="stat-card"><strong>{totalPieceTypes}</strong><span>Types</span></div>
         </div>
 
-        <button className="primary-action primary-action-disabled" type="button" disabled>
-          + Add a Set · Coming next
+        <button className="primary-action" type="button" disabled title="Add-set editing arrives in Slice 3">
+          + Add a Set
         </button>
       </div>
 
