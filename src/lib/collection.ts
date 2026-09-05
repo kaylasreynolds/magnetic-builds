@@ -36,6 +36,9 @@ export type CollectionOverview = {
   inventory: CollectionPieceSummary[];
 };
 
+const inventoryKey = (pieceDefinitionId: string, color: string | null) =>
+  `${pieceDefinitionId}::${color ?? ""}`;
+
 export async function getPrimaryCollectionOverview(
   db: MagneticBuildsDatabase,
 ): Promise<CollectionOverview | null> {
@@ -88,41 +91,69 @@ export async function getPrimaryCollectionOverview(
   const adjustments = await db
     .select({
       pieceDefinitionId: inventoryAdjustments.pieceDefinitionId,
+      pieceName: pieceDefinitions.name,
       color: inventoryAdjustments.color,
       quantityDelta: sql<number>`sum(${inventoryAdjustments.quantityDelta})`,
     })
     .from(inventoryAdjustments)
+    .innerJoin(
+      pieceDefinitions,
+      eq(inventoryAdjustments.pieceDefinitionId, pieceDefinitions.id),
+    )
     .where(eq(inventoryAdjustments.userCollectionId, collection.id))
-    .groupBy(inventoryAdjustments.pieceDefinitionId, inventoryAdjustments.color);
+    .groupBy(
+      inventoryAdjustments.pieceDefinitionId,
+      pieceDefinitions.name,
+      inventoryAdjustments.color,
+    );
 
-  const adjustmentMap = new Map(
-    adjustments.map((row) => [
-      `${row.pieceDefinitionId}::${row.color ?? ""}`,
-      Number(row.quantityDelta),
-    ]),
-  );
+  const inventoryMap = new Map<string, CollectionPieceSummary>();
 
-  const inventory = fromSets
-    .map((row) => {
-      const fromSetsQuantity = Number(row.quantity);
-      const adjustment =
-        adjustmentMap.get(`${row.pieceDefinitionId}::${row.color ?? ""}`) ?? 0;
+  for (const row of fromSets) {
+    const fromSetsQuantity = Number(row.quantity);
+    inventoryMap.set(inventoryKey(row.pieceDefinitionId, row.color), {
+      pieceDefinitionId: row.pieceDefinitionId,
+      pieceName: row.pieceName,
+      color: row.color,
+      fromSets: fromSetsQuantity,
+      adjustment: 0,
+      usableQuantity: fromSetsQuantity,
+    });
+  }
 
-      return {
-        pieceDefinitionId: row.pieceDefinitionId,
-        pieceName: row.pieceName,
-        color: row.color,
-        fromSets: fromSetsQuantity,
-        adjustment,
-        usableQuantity: fromSetsQuantity + adjustment,
-      };
-    })
-    .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
+  for (const row of adjustments) {
+    const key = inventoryKey(row.pieceDefinitionId, row.color);
+    const adjustment = Number(row.quantityDelta);
+    const existing = inventoryMap.get(key);
+
+    if (existing) {
+      existing.adjustment += adjustment;
+      existing.usableQuantity += adjustment;
+      continue;
+    }
+
+    inventoryMap.set(key, {
+      pieceDefinitionId: row.pieceDefinitionId,
+      pieceName: row.pieceName,
+      color: row.color,
+      fromSets: 0,
+      adjustment,
+      usableQuantity: adjustment,
+    });
+  }
+
+  const inventory = [...inventoryMap.values()].sort((a, b) => {
+    const byName = a.pieceName.localeCompare(b.pieceName);
+    return byName !== 0 ? byName : (a.color ?? "").localeCompare(b.color ?? "");
+  });
 
   return {
     collectionId: collection.id,
     collectionName: collection.name,
-    ownedSets: owned.map((row) => ({ ...row, calculatedPieces: Number(row.calculatedPieces) })),
+    ownedSets: owned.map((row) => ({
+      ...row,
+      calculatedPieces: Number(row.calculatedPieces),
+    })),
     inventory,
   };
 }
