@@ -68,10 +68,7 @@ p { max-width: 42rem; font-size: 1.15rem; line-height: 1.65; }
   header { padding: .9rem 1rem; }
   main {
     padding: 1.45rem .9rem 3rem;
-    width: 117.647%;
-    max-width: none;
-    margin: 0;
-    zoom: .85;
+    zoom: .78;
   }
 }
 
