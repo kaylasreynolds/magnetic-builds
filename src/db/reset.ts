@@ -5,7 +5,9 @@ const url = process.env.DATABASE_URL ?? "file:local.db";
 
 async function main() {
   if (!url.startsWith("file:")) {
-    throw new Error("db:reset only operates on a local file: database.");
+    throw new Error(
+      "db:reset only operates on a local file: database.",
+    );
   }
 
   await rm(url.slice(5), { force: true });
@@ -14,7 +16,12 @@ async function main() {
     const result = spawnSync("npm", ["run", script], {
       stdio: "inherit",
       env: process.env,
+      shell: true,
     });
+
+    if (result.error) {
+      throw result.error;
+    }
 
     if (result.status !== 0) {
       process.exit(result.status ?? 1);
