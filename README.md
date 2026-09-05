@@ -1,6 +1,6 @@
 # Magnetic Builds
 
-Magnetic Builds is a private-first workspace for discovering, documenting, testing, and improving magnetic tile creations. This repository currently implements **Milestone 0 — Foundation** only.
+Magnetic Builds is a private-first workspace for discovering, documenting, testing, and improving magnetic tile creations. The repository currently implements **Milestone 0 — Foundation** and intentionally keeps non-breaking future-ready schema in place for later Personal Alpha milestones.
 
 ## Prerequisites
 
@@ -13,6 +13,8 @@ Magnetic Builds is a private-first workspace for discovering, documenting, testi
 ```bash
 npm install
 npm run db:migrate:local
+npm run db:seed:local
+npm run db:verify:local
 npm run dev
 ```
 
@@ -34,11 +36,22 @@ npm run db:generate
 npm run db:migrate:local
 
 # Apply pending migrations to the production D1 database
-# (requires the real database_id in wrangler.toml)
 npm run db:migrate
+
+# Seed the small verified Personal Alpha catalog locally
+npm run db:seed:local
+
+# Seed the same catalog into production D1
+npm run db:seed
+
+# Verify seeded catalog rows locally / remotely
+npm run db:verify:local
+npm run db:verify
 ```
 
-Usable inventory is intentionally not persisted. It will be derived from owned sets, set contents, and inventory adjustments in a later milestone.
+The seed catalog is deliberately small and manufacturer-verified. It is expected to grow incrementally as additional owned sets are added. Unknown catalog information should remain unknown rather than being guessed.
+
+Usable inventory is intentionally not persisted. It will be derived from owned sets, set contents, and inventory adjustments in Milestone 1.
 
 ## Checks
 
@@ -52,15 +65,14 @@ npm run build
 
 `wrangler.toml` declares a D1 database named `magnetic-builds-production` with binding `DB`.
 
-Before the first remote migration or deployment:
-
-1. Create the dedicated D1 database `magnetic-builds-production` in the Magnetic Builds Cloudflare project/account.
-2. Replace `REPLACE_WITH_MAGNETIC_BUILDS_PRODUCTION_D1_ID` in `wrangler.toml` with that database's ID.
-3. Run `npm run db:migrate` to apply the checked-in migrations remotely.
-4. Keep all runtime database access on `drizzle-orm/d1` through the `DB` binding.
+The production database is already configured and deployed through the OpenNext/Cloudflare Worker pipeline. Runtime access should remain on `drizzle-orm/d1` through the `DB` binding.
 
 Do not point this project at an existing database or bucket belonging to another application.
 
 ## Foundation boundaries
 
-The foundation includes the required Personal Alpha relational schema, checked-in Drizzle migrations, a minimal App Router shell, Cloudflare D1 configuration, and D1-first database access. Collection-management screens, authentication, R2, AI, comprehensive catalog data, and the optional `build_relationships` and `attempt_piece_usage` tables are intentionally deferred.
+The foundation includes the required Personal Alpha relational schema, checked-in Drizzle migrations, a minimal App Router shell, Cloudflare D1 configuration, D1-first database access, seed/verification tooling, and basic application error handling.
+
+Some schema for later Personal Alpha milestones is intentionally present now because it is non-breaking and preserves upgrade paths. Those tables do not imply the corresponding user-facing workflows are implemented yet.
+
+Collection-management screens, authentication, R2, AI, comprehensive catalog data, and optional advanced tables remain deferred until their milestones require them.
