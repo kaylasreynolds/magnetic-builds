@@ -69,3 +69,22 @@ INSERT OR IGNORE INTO set_contents (
   ('content_classic100_isosceles_triangle', 'set_magna_classic_100', 'piece_magna_isosceles_triangle', 15, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
   ('content_cars2_green_chassis', 'set_magna_cars_green_yellow_2', 'piece_magna_green_wheeled_chassis', 1, 'green', 'manufacturer', 'confirmed', 'https://magnatiles.com/products/cars-green-yellow-2-piece-set', 0, 0),
   ('content_cars2_yellow_chassis', 'set_magna_cars_green_yellow_2', 'piece_magna_yellow_wheeled_chassis', 1, 'yellow', 'manufacturer', 'confirmed', 'https://magnatiles.com/products/cars-green-yellow-2-piece-set', 0, 0);
+
+-- Personal Alpha starter collection. These are sets the owner confirmed they currently own.
+INSERT OR IGNORE INTO user_collections (
+  id, user_id, name, description, is_primary, created_at, updated_at
+) VALUES (
+  'collection_personal_alpha',
+  NULL,
+  'My Magnetic Tiles',
+  'Primary Personal Alpha collection.',
+  1,
+  0,
+  0
+);
+
+INSERT OR IGNORE INTO owned_sets (
+  id, user_collection_id, set_id, quantity, notes, created_at, updated_at
+) VALUES
+  ('owned_personal_classic_100', 'collection_personal_alpha', 'set_magna_classic_100', 1, 'Confirmed owned set.', 0, 0),
+  ('owned_personal_cars_green_yellow_2', 'collection_personal_alpha', 'set_magna_cars_green_yellow_2', 1, 'Confirmed owned set.', 0, 0);
