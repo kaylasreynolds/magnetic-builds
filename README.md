@@ -6,40 +6,37 @@ Magnetic Builds is a private-first workspace for discovering, documenting, testi
 
 - Node.js 22 or later
 - npm 10 or later
+- Cloudflare Wrangler
 
 ## Local setup
 
 ```bash
 npm install
-cp .env.example .env.local
-npm run db:migrate
-npm run db:seed
+npm run db:migrate:local
 npm run dev
 ```
 
-Open `http://localhost:3000`. The JSON endpoint at `http://localhost:3000/api/health` verifies database access and reports counts for the seeded reference records. It returns a useful `503` response if the local database is missing or unavailable.
+Open `http://localhost:3000`. The JSON endpoint at `http://localhost:3000/api/health` verifies the application is running and reports the intended Cloudflare D1 binding name.
 
-The seed is idempotent and contains only fictional records labeled **Development Sample**. It is infrastructure test data, not verified manufacturer catalog data.
+## Database architecture
 
-## Database workflow
+Magnetic Builds is Cloudflare-first. The application schema is defined with Drizzle and the runtime database is Cloudflare D1 through the `DB` binding declared in `wrangler.toml`.
 
-Local development uses SQLite through libSQL's local-file client. `src/db/schema.ts` is the shared Drizzle SQLite schema and is compatible with D1; runtime adapter selection remains isolated in `src/db/client.ts`.
+There is no libSQL client and no file-backed `local.db` application database. Local D1 development uses Wrangler's local D1 emulation so the development path matches the production database model.
+
+`src/db/client.ts` constructs Drizzle with `drizzle-orm/d1` from a supplied `D1Database` binding.
 
 ```bash
 # Generate a migration after editing the schema
 npm run db:generate
 
-# Apply pending migrations
+# Apply pending migrations to Wrangler's local D1 database
+npm run db:migrate:local
+
+# Apply pending migrations to the production D1 database
+# (requires the real database_id in wrangler.toml)
 npm run db:migrate
-
-# Load/reload idempotent sample records
-npm run db:seed
-
-# Delete only the configured local file, migrate, and seed it again
-npm run db:reset
 ```
-
-`db:reset` deliberately refuses non-`file:` database URLs. It cannot modify a remote database.
 
 Usable inventory is intentionally not persisted. It will be derived from owned sets, set contents, and inventory adjustments in a later milestone.
 
@@ -51,27 +48,19 @@ npm run lint
 npm run build
 ```
 
-For a full clean-database check, run `npm run db:reset`, start the app with `npm run dev`, and request `curl --fail http://localhost:3000/api/health`.
+## Cloudflare D1 setup
 
-## Environment
+`wrangler.toml` declares a D1 database named `magnetic-builds-production` with binding `DB`.
 
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `DATABASE_URL` | `file:local.db` | Local SQLite/libSQL connection URL. |
+Before the first remote migration or deployment:
 
-Keep `.env.local` private. No authentication, object storage, AI service, or remote resource is configured in this milestone.
+1. Create the dedicated D1 database `magnetic-builds-production` in the Magnetic Builds Cloudflare project/account.
+2. Replace `REPLACE_WITH_MAGNETIC_BUILDS_PRODUCTION_D1_ID` in `wrangler.toml` with that database's ID.
+3. Run `npm run db:migrate` to apply the checked-in migrations remotely.
+4. Keep all runtime database access on `drizzle-orm/d1` through the `DB` binding.
 
-## Cloudflare preparation
-
-`wrangler.toml` reserves only the Magnetic Builds application and D1 names. Before a future deployment:
-
-1. Explicitly create a new D1 database named `magnetic-builds-production`.
-2. Replace the placeholder database ID in `wrangler.toml` with that new database's ID.
-3. Add the Cloudflare/OpenNext runtime adapter as a dedicated deployment change and construct Drizzle with `drizzle-orm/d1` using the `DB` binding.
-4. Apply the checked-in migrations to that newly created database.
-
-Do not point this project at an existing database or bucket. This repository does not create, mutate, or deploy any remote Cloudflare resource automatically.
+Do not point this project at an existing database or bucket belonging to another application.
 
 ## Foundation boundaries
 
-The foundation includes the complete required Personal Alpha relational schema, migration and sample seed tooling, a minimal App Router shell, and a database diagnostic. Collection-management screens, authentication, R2, AI, comprehensive catalog data, and the optional `build_relationships` and `attempt_piece_usage` tables are intentionally deferred.
+The foundation includes the required Personal Alpha relational schema, checked-in Drizzle migrations, a minimal App Router shell, Cloudflare D1 configuration, and D1-first database access. Collection-management screens, authentication, R2, AI, comprehensive catalog data, and the optional `build_relationships` and `attempt_piece_usage` tables are intentionally deferred.
