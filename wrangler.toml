@@ -1,9 +1,8 @@
 name = "magnetic-builds"
 compatibility_date = "2025-08-01"
 
-# Create this database explicitly before deployment, then replace the placeholder.
 [[d1_databases]]
 binding = "DB"
 database_name = "magnetic-builds-production"
-database_id = "REPLACE_WITH_MAGNETIC_BUILDS_PRODUCTION_D1_ID"
+database_id = "411dd993-894f-4625-bbef-af18523dd681"
 migrations_dir = "drizzle"
