@@ -79,8 +79,8 @@ p { max-width: 42rem; font-size: 1.15rem; line-height: 1.65; }
   .stat-card strong { font-size: 1.35rem; }
   .stat-card span { font-size: .75rem; }
   .collection-section { padding: 1.1rem; }
-  .set-card-scroller { grid-auto-columns: minmax(15rem, 31%); margin-left: -1.1rem; margin-right: -1.1rem; padding-left: 1.1rem; padding-right: 1.1rem; }
-  .set-card { grid-template-columns: 5.2rem 1fr; min-height: 7.5rem; padding: .85rem; }
+  .set-card-scroller { grid-auto-flow: row; grid-auto-columns: unset; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .85rem; margin: .9rem 0 0; padding: 0; overflow: visible; scroll-snap-type: none; }
+  .set-card { grid-template-columns: 5.2rem 1fr; min-height: 7.5rem; padding: .85rem; width: 100%; }
   .set-art { height: 5.25rem; }
   .collection-details { grid-template-columns: 1fr auto; align-items: center; }
 }
