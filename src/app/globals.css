@@ -65,8 +65,54 @@ p { max-width: 42rem; font-size: 1.15rem; line-height: 1.65; }
 .piece-count { justify-items: end; }
 
 @media (max-width: 36rem) {
-  header { padding: .9rem 1rem; }
-  main { padding: 1.45rem .9rem 3rem; }
+  header { padding: .72rem .8rem; }
+  header strong { font-size: .92rem; }
+  main { padding: 1.05rem .72rem 2.4rem; }
+
+  .collection-shell { gap: .78rem; }
+  .collection-shell h1 { margin-bottom: .22rem; font-size: 1.78rem; line-height: .98; }
+  .collection-shell h2 { font-size: 1rem; }
+  .collection-shell h3 { font-size: .84rem; line-height: 1.14; }
+  .collection-shell p { font-size: .8rem; line-height: 1.38; }
+  .collection-subtitle { font-size: .78rem !important; }
+  .collection-hero { gap: .6rem; }
+
+  .collection-stats { gap: .38rem; }
+  .stat-card { padding: .5rem .28rem; border-radius: .72rem; }
+  .stat-card strong { font-size: 1rem; }
+  .stat-card span { font-size: .56rem; }
+
+  .primary-action, .secondary-action { min-height: 2.35rem; border-radius: .72rem; font-size: .82rem; }
+  .primary-action { padding: .56rem .7rem; }
+  .secondary-action { padding: .55rem .72rem; }
+
+  .collection-section { padding: .72rem; border-radius: .95rem; }
+  .section-kicker { font-size: .56rem !important; }
+  .owned-sets-section { margin-top: 0; }
+
+  .set-card-scroller { grid-auto-columns: minmax(10.25rem, 76%); gap: .55rem; margin: .58rem -.72rem -.08rem; padding: 0 .72rem .2rem; }
+  .set-card { grid-template-columns: 3.55rem 1fr; gap: .55rem; min-height: 5.25rem; padding: .55rem; border-radius: .72rem; }
+  .set-art { height: 3.55rem; border-radius: .58rem; }
+  .tile { border-width: 2px; }
+  .tile-square { width: 1.45rem; height: 1.45rem; left: .45rem; bottom: .45rem; }
+  .tile-triangle { right: .4rem; top: .4rem; border-left-width: .82rem; border-right-width: .82rem; border-bottom-width: 1.45rem; }
+  .tile-small { width: 1.12rem; height: 1.12rem; right: .5rem; bottom: .45rem; }
+  .set-card-copy h3 { -webkit-line-clamp: 2; }
+  .set-card-copy p { font-size: .66rem; }
+  .set-brand { font-size: .54rem !important; }
+
+  .build-callout { gap: .58rem; }
+  .build-icon { width: 1.85rem; height: 1.85rem; border-radius: .6rem; font-size: .78rem; }
+  .collection-details { gap: .5rem; }
+
+  .inventory-header { gap: .2rem; }
+  .piece-groups { gap: .62rem; }
+  .piece-group { border-radius: .9rem; }
+  .piece-group-heading { padding: .72rem .75rem .6rem; }
+  .piece-group-heading > strong { font-size: 1.05rem; }
+  .piece-row { grid-template-columns: 1.8rem 1fr auto; gap: .58rem; padding: .62rem .75rem; }
+  .piece-symbol { width: 1.8rem; height: 1.8rem; border-radius: .56rem; font-size: .95rem; }
+  .piece-row-copy span, .piece-count span { font-size: .66rem; }
 }
 
 @media (min-width: 44rem) {
