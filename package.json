@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cloudflare": "opennextjs-cloudflare build",
+    "deploy:cloudflare": "wrangler deploy",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
@@ -37,6 +39,7 @@
   },
   "allowScripts": {
     "esbuild@0.18.20": true,
+    "esbuild@0.25.4": true,
     "esbuild@0.25.12": true,
     "esbuild@0.28.2": true,
     "esbuild@0.28.1": true,
