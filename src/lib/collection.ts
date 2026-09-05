@@ -21,6 +21,15 @@ export type CollectionSetSummary = {
   calculatedPieces: number;
 };
 
+export type CollectionSetCatalogItem = {
+  setId: string;
+  brandName: string;
+  setName: string;
+  setIdentifier: string | null;
+  advertisedPieceCount: number | null;
+  calculatedPieceCount: number;
+};
+
 export type CollectionPieceSummary = {
   pieceDefinitionId: string;
   pieceName: string;
@@ -40,6 +49,36 @@ export type CollectionOverview = {
 
 const inventoryKey = (pieceDefinitionId: string, color: string | null) =>
   `${pieceDefinitionId}::${color ?? ""}`;
+
+export async function getSetCatalog(
+  db: MagneticBuildsDatabase,
+): Promise<CollectionSetCatalogItem[]> {
+  const rows = await db
+    .select({
+      setId: sets.id,
+      brandName: brands.name,
+      setName: sets.name,
+      setIdentifier: sets.setIdentifier,
+      advertisedPieceCount: sets.advertisedPieceCount,
+      calculatedPieceCount: sql<number>`coalesce(sum(${setContents.quantity}), 0)`,
+    })
+    .from(sets)
+    .innerJoin(brands, eq(sets.brandId, brands.id))
+    .leftJoin(setContents, eq(setContents.setId, sets.id))
+    .groupBy(
+      sets.id,
+      brands.name,
+      sets.name,
+      sets.setIdentifier,
+      sets.advertisedPieceCount,
+    )
+    .orderBy(asc(brands.name), asc(sets.name));
+
+  return rows.map((row) => ({
+    ...row,
+    calculatedPieceCount: Number(row.calculatedPieceCount),
+  }));
+}
 
 export async function getPrimaryCollectionOverview(
   db: MagneticBuildsDatabase,
