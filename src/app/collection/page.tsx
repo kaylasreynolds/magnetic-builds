@@ -2,6 +2,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDatabase } from "@/db/client";
 import { getPrimaryCollectionOverview, getSetCatalog } from "@/lib/collection";
 import CollectionEditor from "./CollectionEditor";
+import "./collection-edit.css";
 
 export const dynamic = "force-dynamic";
 
