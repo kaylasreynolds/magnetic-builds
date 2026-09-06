@@ -1,8 +1,8 @@
-# Magnetic Builds — Implementation Plan
+# Tileable — Implementation Plan
 
 ## Purpose
 
-This document defines the practical build sequence for the first usable version of Magnetic Builds.
+This document defines the practical build sequence for the first usable version of Tileable.
 
 The implementation plan should follow the product requirements in `prd.md` and the structure defined in `data_model.md` and `schema.md`.
 
@@ -143,7 +143,7 @@ Milestone 0 is complete when:
 
 ### Goal
 
-Allow the user to tell Magnetic Builds which magnetic tile sets they own and see the resulting usable piece inventory.
+Allow the user to tell Tileable which magnetic tile sets they own and see the resulting usable piece inventory.
 
 This is the first major product capability because collection awareness powers later buildability features.
 
@@ -157,7 +157,7 @@ User adds a known set.
 
 ↓  
 
-Magnetic Builds expands the set into its known pieces.
+Tileable expands the set into its known pieces.
 
 ↓  
 
@@ -356,7 +356,7 @@ Milestone 2 is complete when the user can:
 
 ### Goal
 
-Connect Builds to the user's collection so Magnetic Builds can answer its first major intelligence question:
+Connect Builds to the user's collection so Tileable can answer its first major intelligence question:
 
 **"Can I build this with what I own?"**
 
@@ -442,7 +442,7 @@ Milestone 3 is complete when:
 
 ### Goal
 
-Allow Magnetic Builds to record what happens when a Build is actually attempted in the real world.
+Allow Tileable to record what happens when a Build is actually attempted in the real world.
 
 This milestone establishes one of the product's most important distinctions:
 
@@ -639,7 +639,7 @@ Milestone 5 is complete when the user can:
 
 Milestones 0–5 together define the first complete Personal Alpha.
 
-At this point, Magnetic Builds should support the entire foundational loop:
+At this point, Tileable should support the entire foundational loop:
 
 Collection
     ↓
@@ -706,7 +706,7 @@ The likely development areas are described below.
 
 Make saved Builds and Inspiration easy to recover without requiring perfect organization or exact titles.
 
-Magnetic Builds should become more useful as its library grows rather than harder to navigate.
+Tileable should become more useful as its library grows rather than harder to navigate.
 
 ### Deliverables
 
@@ -796,7 +796,7 @@ Milestone 6 is complete when:
 
 ### Goal
 
-Reduce manual documentation by allowing Magnetic Builds to extract useful information from photos while remaining explicit about uncertainty.
+Reduce manual documentation by allowing Tileable to extract useful information from photos while remaining explicit about uncertainty.
 
 This should assist the user rather than silently replace their judgment.
 
@@ -806,7 +806,7 @@ User uploads Build photos.
 
 ↓
 
-Magnetic Builds analyzes visible information.
+Tileable analyzes visible information.
 
 ↓
 
@@ -1319,7 +1319,7 @@ Milestone 12 is complete when the system can:
 
 ## Private Beta Transition
 
-Once the Personal Alpha and the most valuable intelligence capabilities are reliable, Magnetic Builds may transition from a single-user product into a Private Beta.
+Once the Personal Alpha and the most valuable intelligence capabilities are reliable, Tileable may transition from a single-user product into a Private Beta.
 
 The Private Beta should not begin simply because a predetermined feature list is complete.
 
@@ -1354,7 +1354,7 @@ The milestone numbers describe dependencies and likely progression, not a promis
 
 The team should periodically ask:
 
-**What is the smallest thing we can build next that teaches us something important or makes Magnetic Builds meaningfully more useful?**
+**What is the smallest thing we can build next that teaches us something important or makes Tileable meaningfully more useful?**
 
 A later feature may move forward when it can be implemented cheaply and provides valuable learning.
 
@@ -1365,4 +1365,3 @@ The product requirements define the destination.
 The implementation plan defines the best route we currently know.
 
 Real-world use is allowed to change the route.
-
