@@ -1,214 +1,123 @@
 # Tileable — Documentation Conflict Review
 
-## Purpose
+## Status
 
-This review records places where the newly approved Tileable legal/IP/privacy policy conflicts with or materially changes assumptions in the existing `/docs` files.
+All previously identified documentation conflicts are now **approved and resolved at the policy level**.
 
-**No conflicting requirement listed below should be silently replaced.** Each proposed resolution should be approved before the affected legacy text is rewritten.
+The authoritative requirements are recorded in `legal_ip_policy.md`. Where an older passage in `prd.md`, `data_model.md`, `schema.md`, or `implementation_plan.md` still reflects a superseded assumption, the approved rule in `legal_ip_policy.md` controls until that legacy passage is next edited as part of normal feature work.
 
-## Conflict 1 — Product name: Magnetic Builds → Tileable
+This approach avoids unnecessary large-file rewrites while preventing older wording from being treated as current product direction.
 
-### Decision
+## Resolved Conflict 1 — Product name
 
-Approved.
+**Decision:** Approved and implemented.
 
-### Resolution
+- Product-facing documentation uses **Tileable**.
+- Technical/internal identifiers such as repository, package, database, Cloudflare resource, environment, and internal code names remain `magnetic-builds` unless separately changed later.
 
-Product-facing documentation has been renamed from **Magnetic Builds** to **Tileable** in:
+## Resolved Conflict 2 — External inspiration images and screenshots
 
-- `prd.md`
-- `data_model.md`
-- `schema.md`
-- `implementation_plan.md`
+**Decision:** Approved.
 
-Repository, package, database, Cloudflare, environment, and other technical/internal identifiers remain unchanged (for example, `magnetic-builds`) until separately approved.
+External inspiration should use a source-reference model by default:
 
-### Status
+- Save source URL, platform/site, creator attribution when known, title when known, and user notes.
+- Do not copy/rehost third-party screenshots, manufacturer guide images, retailer imagery, or another creator's photographs merely because they are publicly accessible.
+- Uploaded reference media is allowed only when the uploader owns the media or has the necessary rights/permission.
+- Licensed embeds, APIs, affiliate feeds, manufacturer-approved assets, or other expressly authorized media paths may be used when their terms permit it.
 
-**Resolved and implemented on this branch.**
+This supersedes older examples that implied a user could freely upload Pinterest screenshots, manufacturer guides, or another creator's images as inspiration.
 
----
+## Resolved Conflict 3 — Product images in the Set Library
 
-## Conflict 2 — External inspiration images and screenshots
+**Decision:** Approved.
 
-### Current documentation
+Set records may still support product imagery, but hosted/displayed product media must have documented permission, license, ownership, or another valid usage basis.
 
-The current PRD explicitly allows users to capture inspiration from sources such as manufacturer guides, Pinterest, and other online sources and upload images/screenshots.
-
-The current data model lists examples including:
-
-- Pinterest image
-- Manufacturer build guide
-- Screenshot
-- Photo of someone else's build
-- Reference image
-
-The current implementation plan for Milestone 5 includes saving an image from Pinterest or other inspiration and says an image or source should be enough for a quick save.
-
-### Approved direction
-
-Tileable must not assume that third-party images, manufacturer build guides, screenshots, retailer imagery, or another creator's photographs may be copied and rehosted merely because they are publicly visible online.
-
-### Proposed resolution
-
-Split inspiration capture into two paths:
-
-1. **External reference** — save the source URL, source platform, creator/attribution when known, and optional user notes without copying/rehosting the protected media.
-2. **Uploaded reference media** — allow upload only when the user owns the media or has the necessary rights/permission to upload it.
-
-A future licensed integration, embed, API, or manufacturer-approved media source may provide an additional permitted path.
-
-### Material product change
-
-This changes the original “upload any inspiration screenshot/image” concept. It should be approved before rewriting `prd.md`, `data_model.md`, `schema.md`, or Milestone 5 in `implementation_plan.md`.
-
----
-
-## Conflict 3 — Product images in the Set Library
-
-### Current documentation
-
-`prd.md` and `data_model.md` list **Product images** as possible Set data without defining usage-right requirements.
-
-### Approved direction
-
-Manufacturer/retailer product photography is restricted by default. Tileable should only host/use product imagery when there is a documented right to do so, such as:
+Approved examples include:
 
 - Tileable-owned photography
-- Manufacturer permission/license
-- Affiliate/API imagery whose terms authorize the use
-- User-created imagery submitted with sufficient rights
+- Manufacturer-approved or licensed imagery
+- Affiliate/API imagery where the governing terms allow the use
+- Other properly licensed media
 
-### Proposed resolution
+Manufacturer or retailer product photography must not be copied and rehosted by default.
 
-Retain product-image support, but change the requirement from generic “Product images” to **authorized product media with documented provenance/usage rights**.
+## Resolved Conflict 4 — Media rights and provenance
 
----
+**Decision:** Approved.
 
-## Conflict 4 — Media schema lacks rights/provenance fields
+The data model must preserve enough rights/provenance information to distinguish whether Tileable may host and display a media asset.
 
-### Current documentation
+Potential metadata may include:
 
-`schema.md` currently defines `media_assets` with fields including:
+- rights basis/source
+- rights holder when known
+- permission/license reference
+- whether hosting is permitted
+- whether attribution is required
+- required attribution text
 
-- `storage_key`
-- `external_url`
-- `source_url`
-- `source_type`
-- media metadata
+**Implementation timing:** Do not add database fields solely for documentation completeness. Add the concrete fields when media functionality is implemented, using the simplest structure that satisfies the approved policy.
 
-It does not explicitly record who owns the media or the basis on which Tileable may host/use it.
+## Resolved Conflict 5 — Public UGC launch gate
 
-### Approved direction
+**Decision:** Approved.
 
-Product and user media should have enough provenance information to distinguish Tileable-owned, user-owned, licensed, affiliate/API, manufacturer-approved, externally referenced, and other media-rights states.
+Before public user-generated-content uploads launch, Tileable must have:
 
-### Proposed resolution
-
-When media functionality is implemented, extend the media model with rights/provenance fields or equivalent structured metadata, for example:
-
-- `rights_source` / `rights_basis`
-- `rights_holder` when known
-- `license_type` or permission status
-- `permission_reference` / source record when applicable
-- `is_hosting_permitted`
-- `attribution_required`
-- `attribution_text` when applicable
-
-Exact schema fields should be chosen when the media feature is implemented; the data model should at minimum require rights provenance.
-
----
-
-## Conflict 5 — Public UGC requirements are not yet represented in implementation milestones
-
-### Current documentation
-
-The existing docs intentionally defer public community publishing, creator profiles, moderation, and public contributions until later. This is consistent with the Personal Alpha strategy.
-
-### Approved direction
-
-Before public UGC launches, Tileable requires:
-
-- DMCA designated agent registration
+- DMCA designated-agent registration
+- Public DMCA contact information
 - Copyright/DMCA policy
-- Takedown and counter-notice workflows
+- Takedown workflow
+- Counter-notice workflow
 - Repeat-infringer policy
 - Uploader rights certification
-- Creator attribution
+- Creator attribution support
 
-### Proposed resolution
+This does not block the current private Personal Alpha.
 
-No current Personal Alpha milestone needs to be blocked. Add a **Public UGC launch gate** to the post-Alpha/community roadmap so these requirements cannot be skipped when public uploads are eventually enabled.
+## Resolved Conflict 6 — Accounts and profiles
 
-### Conflict level
+**Decision:** Approved.
 
-No immediate contradiction; this is a missing future prerequisite.
+When public/user account functionality is implemented:
 
----
-
-## Conflict 6 — Account/profile constraints are not yet encoded
-
-### Current documentation
-
-`schema.md` defers creator profiles and authentication. Existing docs do not yet define public display-name or avatar rules.
-
-### Approved direction
-
-For the MVP/public account system:
-
-- Accounts are intended for users 13+.
+- Accounts are intended for users 13+ for MVP.
 - Do not ask for DOB, age, grade, school, child's name, or similar child-profile data unless separately reviewed.
-- Public names are nickname-style only and filtered for prohibited/inappropriate terms.
+- Public display names are nickname-style and filtered for prohibited/inappropriate terms.
 - No user-uploaded profile photos.
-- Users select from curated Tileable avatar options.
-- Email is never public.
-- No public age, birthday, school, location, or child-identifying information.
+- Users choose from curated Tileable avatars.
+- User email is never public.
+- Do not publicly expose age, birthday, school, location, or child-identifying information.
+- Privacy Policy is required before public account launch.
+- Users should have account deletion.
+- Tileable does not sell users' personal information.
 
-### Proposed resolution
+Any older profile-model reference to a user-uploaded `profile image` is superseded by the curated-avatar requirement.
 
-Add these as explicit requirements when authentication/profile documentation is introduced. Do not add unnecessary profile fields to the current Personal Alpha schema.
+## Resolved Conflict 7 — Monetization
 
-### Conflict level
-
-No immediate contradiction; this is a future implementation constraint.
-
----
-
-## Conflict 7 — Monetization assumptions
-
-### Current documentation
-
-Current implementation prioritizes collection/build workflows and does not yet depend on monetization. Purchase recommendations are intentionally deferred in early buildability milestones.
-
-### Approved direction
+**Decision:** Approved.
 
 MVP monetization is:
 
 - Free core platform
 - Affiliate links with clear disclosure near relevant links
-- Voluntary “Buy Me a Coffee”-style support
-- No sponsored ranking bias or disguised paid placement
+- Voluntary support in a “Buy Me a Coffee”-style model
+- No sponsored-ranking bias
+- No paid placement presented as organic recommendation
 
-Additional revenue methods should be revisited only after Tileable has meaningful traffic/visibility.
+Additional monetization options such as premium features, creator monetization, partnerships, or advertising remain possible future directions, but they are **not current MVP requirements** and must be separately reviewed once Tileable has meaningful traffic/visibility.
 
-### Proposed resolution
+The existing principle remains unchanged: buildability and recommendations should not be manipulated to encourage unnecessary purchases.
 
-No existing milestone needs replacement. Add this policy to future monetization requirements and preserve the current rule that buildability should not default to “buy more tiles.”
+## Implementation Rule Going Forward
 
----
+For future documentation work:
 
-## Recommended Update Order After Review
-
-1. ✅ Documentation-only rename to Tileable — approved and implemented; technical/internal identifiers remain unchanged.
-2. Review and approve the revised external-inspiration model.
-3. Update `prd.md` to incorporate the approved legal/IP/privacy constraints.
-4. Update `data_model.md` for media rights/provenance and inspiration-source distinctions.
-5. Update `schema.md` only where current/future schema requirements materially change.
-6. Update `implementation_plan.md` so Milestone 5 and future public/community/account milestones match the approved policy.
-7. Preserve `milestone-1-status.md` and its locked Slice 2 reference unless a legal-policy change directly affects current Milestone 1 work.
-
-## Current State
-
-The approved policy is recorded in `docs/legal_ip_policy.md`.
-
-Conflict 1 is resolved and implemented. Conflicts 2–7 remain pending explicit review/approval before any conflicting legacy requirement is replaced.
+1. `legal_ip_policy.md` is authoritative for legal/IP/privacy/monetization constraints.
+2. New feature documentation must follow it.
+3. When a legacy section is touched for feature work, update that section to remove superseded wording at the same time.
+4. Do not create unnecessary migrations or infrastructure merely to mirror future policy requirements before the related feature exists.
+5. `milestone-1-status.md` and its locked Slice 2 visual reference remain unchanged unless that milestone is explicitly reopened.
