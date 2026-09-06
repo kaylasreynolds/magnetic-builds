@@ -6,7 +6,7 @@ All previously identified documentation conflicts are now **approved and resolve
 
 The authoritative requirements are recorded in `legal_ip_policy.md`. Where an older passage in `prd.md`, `data_model.md`, `schema.md`, or `implementation_plan.md` still reflects a superseded assumption, the approved rule in `legal_ip_policy.md` controls until that legacy passage is next edited as part of normal feature work.
 
-This approach avoids unnecessary large-file rewrites while preventing older wording from being treated as current product direction.
+This approach intentionally avoids unnecessary large-file rewrites while preventing older wording from being treated as current product direction.
 
 ## Resolved Conflict 1 — Product name
 
@@ -121,3 +121,4 @@ For future documentation work:
 3. When a legacy section is touched for feature work, update that section to remove superseded wording at the same time.
 4. Do not create unnecessary migrations or infrastructure merely to mirror future policy requirements before the related feature exists.
 5. `milestone-1-status.md` and its locked Slice 2 visual reference remain unchanged unless that milestone is explicitly reopened.
+6. The legacy PRD/data-model/schema/implementation-plan examples do not need immediate bulk rewriting solely to mirror these approved rules; the policy above governs until those sections are naturally updated.
