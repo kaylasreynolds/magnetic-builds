@@ -40,6 +40,12 @@ export type CollectionPieceSummary = {
   usableQuantity: number;
 };
 
+export type PieceDefinitionCatalogItem = {
+  pieceDefinitionId: string;
+  pieceName: string;
+  pieceFamilyName: string;
+};
+
 export type CollectionOverview = {
   collectionId: string;
   collectionName: string;
@@ -78,6 +84,20 @@ export async function getSetCatalog(
     ...row,
     calculatedPieceCount: Number(row.calculatedPieceCount),
   }));
+}
+
+export async function getPieceDefinitionCatalog(
+  db: MagneticBuildsDatabase,
+): Promise<PieceDefinitionCatalogItem[]> {
+  return db
+    .select({
+      pieceDefinitionId: pieceDefinitions.id,
+      pieceName: pieceDefinitions.name,
+      pieceFamilyName: pieceFamilies.name,
+    })
+    .from(pieceDefinitions)
+    .innerJoin(pieceFamilies, eq(pieceDefinitions.pieceFamilyId, pieceFamilies.id))
+    .orderBy(asc(pieceFamilies.name), asc(pieceDefinitions.name));
 }
 
 export async function getPrimaryCollectionOverview(

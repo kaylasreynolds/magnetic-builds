@@ -1,20 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import type { CollectionPieceSummary } from "@/lib/collection";
-import { correctPieceQuantity } from "./actions";
+import type { CollectionPieceSummary, PieceDefinitionCatalogItem } from "@/lib/collection";
+import { addLoosePieces, correctPieceQuantity } from "./actions";
 
 type Props = {
   pieces: CollectionPieceSummary[];
+  pieceCatalog: PieceDefinitionCatalogItem[];
 };
 
-export default function PieceInventoryEditor({ pieces }: Props) {
+export default function PieceInventoryEditor({ pieces, pieceCatalog }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [selected, setSelected] = useState<CollectionPieceSummary | null>(null);
   const [actualQuantity, setActualQuantity] = useState(0);
+  const [addOpen, setAddOpen] = useState(false);
+  const [loosePiece, setLoosePiece] = useState<PieceDefinitionCatalogItem | null>(null);
+  const [looseQuantity, setLooseQuantity] = useState(1);
+  const [looseColor, setLooseColor] = useState("");
+  const [query, setQuery] = useState("");
   const [error, setError] = useState("");
 
   const grouped = pieces.reduce<Record<string, CollectionPieceSummary[]>>((groups, piece) => {
@@ -23,6 +29,14 @@ export default function PieceInventoryEditor({ pieces }: Props) {
   }, {});
 
   const totalPieces = pieces.reduce((total, piece) => total + piece.usableQuantity, 0);
+
+  const filteredCatalog = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return pieceCatalog;
+    return pieceCatalog.filter((piece) =>
+      `${piece.pieceFamilyName} ${piece.pieceName}`.toLowerCase().includes(normalized),
+    );
+  }, [pieceCatalog, query]);
 
   const openEditor = (piece: CollectionPieceSummary) => {
     setSelected(piece);
@@ -36,13 +50,45 @@ export default function PieceInventoryEditor({ pieces }: Props) {
     setError("");
   };
 
-  const save = () => {
+  const openLoosePieces = () => {
+    setAddOpen(true);
+    setLoosePiece(null);
+    setLooseQuantity(1);
+    setLooseColor("");
+    setQuery("");
+    setError("");
+  };
+
+  const closeLoosePieces = () => {
+    if (isPending) return;
+    setAddOpen(false);
+    setLoosePiece(null);
+    setQuery("");
+    setError("");
+  };
+
+  const saveCorrection = () => {
     if (!selected) return;
     setError("");
     startTransition(async () => {
       try {
         await correctPieceQuantity(selected.pieceDefinitionId, selected.color, actualQuantity);
         setSelected(null);
+        router.refresh();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Something went wrong.");
+      }
+    });
+  };
+
+  const saveLoosePieces = () => {
+    if (!loosePiece) return;
+    setError("");
+    startTransition(async () => {
+      try {
+        await addLoosePieces(loosePiece.pieceDefinitionId, looseColor, looseQuantity);
+        setAddOpen(false);
+        setLoosePiece(null);
         router.refresh();
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -58,6 +104,9 @@ export default function PieceInventoryEditor({ pieces }: Props) {
           <p className="eyebrow">Piece Inventory</p>
           <h1>{totalPieces} calculated pieces</h1>
           <p className="collection-subtitle">Grouped by piece family so the detail stays easy to scan.</p>
+          <button className="primary-action inventory-add-action" type="button" onClick={openLoosePieces}>
+            + Add Loose Pieces
+          </button>
         </div>
 
         <div className="piece-groups">
@@ -144,9 +193,103 @@ export default function PieceInventoryEditor({ pieces }: Props) {
 
             {error ? <p className="collection-error" role="alert">{error}</p> : null}
 
-            <button className="primary-action" type="button" onClick={save} disabled={isPending}>
+            <button className="primary-action" type="button" onClick={saveCorrection} disabled={isPending}>
               {isPending ? "Saving…" : "Save Correction"}
             </button>
+          </section>
+        </div>
+      ) : null}
+
+      {addOpen ? (
+        <div className="piece-adjust-backdrop" role="presentation" onMouseDown={closeLoosePieces}>
+          <section
+            className="piece-adjust-sheet loose-piece-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="loose-piece-title"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <div className="piece-adjust-handle" aria-hidden="true" />
+            <div className="piece-adjust-heading">
+              <div>
+                <p className="section-kicker">Piece Inventory</p>
+                <h2 id="loose-piece-title">Add Loose Pieces</h2>
+              </div>
+              <button type="button" className="sheet-close" onClick={closeLoosePieces} aria-label="Close">×</button>
+            </div>
+
+            {!loosePiece ? (
+              <>
+                <input
+                  className="loose-piece-search"
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search piece types..."
+                  autoFocus
+                />
+
+                <div className="loose-piece-list">
+                  {filteredCatalog.length === 0 ? (
+                    <p className="collection-helper">No matching piece types found.</p>
+                  ) : filteredCatalog.map((piece) => (
+                    <button
+                      className="loose-piece-option"
+                      type="button"
+                      key={piece.pieceDefinitionId}
+                      onClick={() => {
+                        setLoosePiece(piece);
+                        setError("");
+                      }}
+                    >
+                      <span>{piece.pieceFamilyName}</span>
+                      <strong>{piece.pieceName}</strong>
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                <button className="loose-piece-back" type="button" onClick={() => setLoosePiece(null)} disabled={isPending}>
+                  ← Choose a different piece
+                </button>
+
+                <div className="loose-piece-selected">
+                  <span>{loosePiece.pieceFamilyName}</span>
+                  <strong>{loosePiece.pieceName}</strong>
+                </div>
+
+                <label className="piece-actual-field">
+                  <span>Color <small>(optional)</small></span>
+                  <input
+                    type="text"
+                    value={looseColor}
+                    onChange={(event) => setLooseColor(event.target.value)}
+                    placeholder="e.g. Blue"
+                    disabled={isPending}
+                  />
+                </label>
+
+                <label className="piece-actual-field">
+                  <span>Quantity</span>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    min="1"
+                    step="1"
+                    value={looseQuantity}
+                    onChange={(event) => setLooseQuantity(Math.max(1, Number.parseInt(event.target.value || "1", 10)))}
+                    disabled={isPending}
+                  />
+                </label>
+
+                {error ? <p className="collection-error" role="alert">{error}</p> : null}
+
+                <button className="primary-action" type="button" onClick={saveLoosePieces} disabled={isPending}>
+                  {isPending ? "Adding…" : "Add to Collection"}
+                </button>
+              </>
+            )}
           </section>
         </div>
       ) : null}
