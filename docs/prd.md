@@ -22,7 +22,7 @@ There is also no simple way to document a real-world build, preserve how it was 
 
 ### Helpful, Not Intimidating
 
-Magnetic Builds should feel like building alongside a helpful friend. Users should never need to understand engineering, geometry, or magnetic construction terminology to use the platform.
+Tileable should feel like building alongside a helpful friend. Users should never need to understand engineering, geometry, or magnetic construction terminology to use the platform.
 
 The product should explain what it knows, what it thinks, and what it is unsure about in clear, approachable language.
 
@@ -44,7 +44,7 @@ The platform should distinguish between:
 - Successfully tested builds
 - Builds that were attempted but unsuccessful
 
-When something is uncertain, Magnetic Builds should say so rather than presenting a theoretical result as fact.
+When something is uncertain, Tileable should say so rather than presenting a theoretical result as fact.
 
 ### Failed Builds Are Useful
 
@@ -66,7 +66,7 @@ Over time, this creates a history of how a build evolved.
 
 Recommendations should be based on the pieces a user actually owns whenever possible.
 
-Instead of simply showing what could theoretically be built, Magnetic Builds should help answer:
+Instead of simply showing what could theoretically be built, Tileable should help answer:
 
 **"What can I build with what I have?"**
 
@@ -107,7 +107,7 @@ Community functionality does not need to be enabled in the initial product, but 
 
 ## Core User Experience
 
-Magnetic Builds should support multiple ways of beginning a project because users will not always arrive with the same goal.
+Tileable should support multiple ways of beginning a project because users will not always arrive with the same goal.
 
 The experience should feel less like using a technical design program and more like telling a helpful building partner what you want to do.
 
@@ -152,7 +152,7 @@ A user can:
 
 The inspiration should remain separate from the user's eventual build attempt.
 
-If the user later attempts it, Magnetic Builds should create a related build record where the user can document what actually happened.
+If the user later attempts it, Tileable should create a related build record where the user can document what actually happened.
 
 This allows the platform to distinguish between:
 
@@ -211,7 +211,7 @@ Examples:
 
 > "Make a castle using only the pieces I own."
 
-Magnetic Builds can use the user's collection, available piece geometry, known magnetic connections, and existing build knowledge to propose a design.
+Tileable can use the user's collection, available piece geometry, known magnetic connections, and existing build knowledge to propose a design.
 
 Generated designs must clearly communicate uncertainty.
 
@@ -269,7 +269,7 @@ An unsuccessful result should remain useful. Users should be able to document wh
 
 ### Revisions, Variations, and Remixes
 
-Magnetic Builds should support different ways that builds evolve.
+Tileable should support different ways that builds evolve.
 
 **Revision**  
 An improvement or correction to the same build.
@@ -313,9 +313,9 @@ The goal is to make useful information easy to preserve when it exists.
 
 ## Collection & Piece Intelligence
 
-Magnetic Builds should maintain an accurate inventory of the magnetic tile pieces a user owns.
+Tileable should maintain an accurate inventory of the magnetic tile pieces a user owns.
 
-Rather than requiring users to manually count every individual tile, the system should allow users to add known sets to their collection. Magnetic Builds can then translate those sets into an inventory of individual pieces.
+Rather than requiring users to manually count every individual tile, the system should allow users to add known sets to their collection. Tileable can then translate those sets into an inventory of individual pieces.
 
 Users should also be able to manually adjust their inventory when pieces are lost, replaced, purchased individually, mixed between sets, or otherwise differ from the original set contents.
 
@@ -340,7 +340,7 @@ A user might record:
 - 2 × additional large squares
 - 1 × missing standard square
 
-Magnetic Builds should calculate the user's actual usable inventory from this information.
+Tileable should calculate the user's actual usable inventory from this information.
 
 ### Set Library
 
@@ -404,7 +404,7 @@ The library should be expandable as manufacturers introduce new pieces.
 
 ### Piece Families vs. Exact Pieces
 
-Magnetic Builds should distinguish between a general piece family and a specific manufacturer's implementation of that piece.
+Tileable should distinguish between a general piece family and a specific manufacturer's implementation of that piece.
 
 For example:
 
@@ -451,7 +451,7 @@ Compatibility information may come from manufacturer specifications, system know
 
 Some pieces provide significantly more structural support than visually similar arrangements of individual tiles.
 
-Magnetic Builds should be capable of representing these differences.
+Tileable should be capable of representing these differences.
 
 For example, a reinforced multi-square panel should not automatically be treated as equivalent to several individual squares simply because they occupy approximately the same area.
 
@@ -477,17 +477,17 @@ The system should be able to distinguish between:
 - Manually estimated inventory
 - Unknown quantities
 
-This prevents Magnetic Builds from presenting false precision when a user's collection is incomplete.
+This prevents Tileable from presenting false precision when a user's collection is incomplete.
 
 ## Can I Build This?
 
-One of the core functions of Magnetic Builds should be determining whether a user can recreate a build using their current collection.
+One of the core functions of Tileable should be determining whether a user can recreate a build using their current collection.
 
 For any build with a known or estimated piece list, the system should compare the build requirements against the user's available inventory.
 
 ### Buildability Results
 
-Rather than returning only a yes or no answer, Magnetic Builds should provide useful context.
+Rather than returning only a yes or no answer, Tileable should provide useful context.
 
 Possible results include:
 
@@ -523,7 +523,7 @@ The first response should not automatically be:
 
 **Buy more tiles.**
 
-Whenever practical, Magnetic Builds should first ask:
+Whenever practical, Tileable should first ask:
 
 **"Can we make this work with what you already have?"**
 
@@ -543,7 +543,7 @@ A numerical percentage should only be shown when the underlying data makes the n
 
 ## Build Intelligence & Stability
 
-Magnetic Builds should help users understand not only whether they own the required pieces, but whether a build is likely to work in the real world.
+Tileable should help users understand not only whether they own the required pieces, but whether a build is likely to work in the real world.
 
 Magnetic tile structures are affected by more than piece count. Stability may vary based on geometry, weight distribution, reinforcement, magnet strength, connection patterns, specialty pieces, and differences between manufacturers.
 
@@ -580,7 +580,7 @@ The interface should clearly distinguish real-world testing from theoretical ana
 
 ### Stability Analysis
 
-Where sufficient information exists, Magnetic Builds may analyze factors such as:
+Where sufficient information exists, Tileable may analyze factors such as:
 
 - Base width
 - Structure height
@@ -662,7 +662,7 @@ A build may therefore eventually display information such as:
 
 ### Build Confidence
 
-Magnetic Builds should communicate how much evidence supports its recommendations.
+Tileable should communicate how much evidence supports its recommendations.
 
 Confidence may consider:
 
@@ -681,7 +681,7 @@ The system should explain why confidence is high or low when that information wo
 
 ## Build Results & Feedback
 
-Magnetic Builds should allow users to record what actually happened when they attempted a build.
+Tileable should allow users to record what actually happened when they attempted a build.
 
 Feedback should focus on improving collective knowledge about the build rather than rating the person who created it.
 
@@ -748,7 +748,7 @@ The exact terminology can be refined during interface design.
 
 Estimated build time may initially come from the build creator or system estimate.
 
-As real-world attempts are recorded, Magnetic Builds may eventually show a more useful range.
+As real-world attempts are recorded, Tileable may eventually show a more useful range.
 
 For example:
 
@@ -770,7 +770,7 @@ For example:
 
 > **From Your Last Attempt:** The rear wall collapsed when the upper section was added. You reinforced it with two additional squares.
 
-This allows Magnetic Builds to become more useful as it is used.
+This allows Tileable to become more useful as it is used.
 
 ### Unsuccessful Builds
 
@@ -810,7 +810,7 @@ Examples may include:
 - Moving structures
 - Cause-and-effect play
 
-For functional builds, Magnetic Builds should distinguish between:
+For functional builds, Tileable should distinguish between:
 
 **Construction Stability**  
 Can the structure be successfully assembled and remain standing?
@@ -827,7 +827,7 @@ For example, a pom-pom drop may stand successfully but require reinforcement to 
 
 ## Photo & Inspiration Intelligence
 
-Magnetic Builds should help turn real-world photos and inspiration images into useful, structured build information.
+Tileable should help turn real-world photos and inspiration images into useful, structured build information.
 
 Photo analysis should reduce the amount of manual documentation required without pretending that information can be determined from an image when it cannot.
 
@@ -857,7 +857,7 @@ The system may suggest a category automatically, but the user should be able to 
 
 ### Source & Attribution
 
-When inspiration comes from somewhere else, Magnetic Builds should preserve the original source whenever possible.
+When inspiration comes from somewhere else, Tileable should preserve the original source whenever possible.
 
 A saved inspiration record may include:
 
@@ -874,7 +874,7 @@ If an inspiration later becomes the basis for a user's build, the relationship b
 
 ### Image Analysis
 
-When an image is analyzed, Magnetic Builds may attempt to identify:
+When an image is analyzed, Tileable may attempt to identify:
 
 - Visible magnetic tile pieces
 - Piece types
@@ -898,7 +898,7 @@ Multiple images of the same build should improve analysis.
 
 For example, front, back, side, top, and detail photos may allow the system to identify pieces or connections that cannot be seen from a single image.
 
-Magnetic Builds should be able to associate multiple images with one build and reason across them.
+Tileable should be able to associate multiple images with one build and reason across them.
 
 The system may eventually suggest useful additional views.
 
@@ -959,7 +959,7 @@ Corrections made by the user should be treated as more authoritative than AI est
 
 ### Compare With My Collection
 
-Once an estimated piece list exists, Magnetic Builds should compare it with the user's collection.
+Once an estimated piece list exists, Tileable should compare it with the user's collection.
 
 The system may then report:
 
@@ -982,7 +982,7 @@ This is preferable to falsely reporting that the build is definitely possible.
 
 ### Inspiration Analysis
 
-When analyzing an inspiration image, Magnetic Builds should help answer four questions:
+When analyzing an inspiration image, Tileable should help answer four questions:
 
 **1. What am I looking at?**  
 Identify the general build type and important structural features.
@@ -1000,7 +1000,7 @@ The result should help the user decide whether to save, attempt, modify, or skip
 
 ### Document My Build
 
-When users upload photos of something they built, Magnetic Builds should help create a build record with minimal effort.
+When users upload photos of something they built, Tileable should help create a build record with minimal effort.
 
 The system may suggest:
 
@@ -1034,7 +1034,7 @@ This supports real-world situations where a user wants to preserve a build befor
 
 ### Guided Documentation
 
-If the user wants a more complete record, Magnetic Builds can guide them through additional information conversationally.
+If the user wants a more complete record, Tileable can guide them through additional information conversationally.
 
 Instead of presenting a large form, the system may ask useful questions based on what it cannot determine.
 
@@ -1054,7 +1054,7 @@ The goal is to learn what matters about the build without turning play into data
 
 ## Build Discovery
 
-Magnetic Builds should help users discover build ideas both from its own build library and, where appropriate, external inspiration sources.
+Tileable should help users discover build ideas both from its own build library and, where appropriate, external inspiration sources.
 
 Discovery should become more personalized as the system learns what pieces the user owns and what types of builds they enjoy.
 
@@ -1094,7 +1094,7 @@ Examples:
 
 ### Personalized Discovery
 
-Over time, Magnetic Builds may learn useful non-sensitive preferences from build activity.
+Over time, Tileable may learn useful non-sensitive preferences from build activity.
 
 Examples may include:
 
@@ -1109,9 +1109,9 @@ Recommendations should remain understandable and controllable rather than creati
 
 ### External Inspiration Discovery
 
-A future version of Magnetic Builds may help locate build inspiration available elsewhere online.
+A future version of Tileable may help locate build inspiration available elsewhere online.
 
-External results should preserve their source and should not be presented as Magnetic Builds community content.
+External results should preserve their source and should not be presented as Tileable community content.
 
 Where technically and legally appropriate, the system may analyze external inspiration and compare it against the user's collection.
 
@@ -1131,7 +1131,7 @@ External discovery should respect source ownership, access restrictions, and pla
 
 ## Build Instructions & 3D Representation
 
-Magnetic Builds should help turn a completed or theoretical build into instructions that another person can understand and recreate.
+Tileable should help turn a completed or theoretical build into instructions that another person can understand and recreate.
 
 Instructions should exist as structured build information inside the platform rather than primarily as a static document.
 
@@ -1197,7 +1197,7 @@ The interface should be usable while someone is physically building on the floor
 
 ### Piece Preparation
 
-Before beginning, Magnetic Builds should be able to show the pieces required for the build.
+Before beginning, Tileable should be able to show the pieces required for the build.
 
 The user may choose to:
 
@@ -1209,7 +1209,7 @@ When connected to the user's collection, the system should identify substitution
 
 ### 3D Build Representation
 
-Where sufficient build information exists, Magnetic Builds should create a simplified digital representation of the structure.
+Where sufficient build information exists, Tileable should create a simplified digital representation of the structure.
 
 The representation should prioritize construction clarity over photorealism.
 
@@ -1229,7 +1229,7 @@ The digital representation should not imply that a theoretical structure has bee
 
 ### Photo-to-Model
 
-Magnetic Builds may assist in creating a digital build model from photographs.
+Tileable may assist in creating a digital build model from photographs.
 
 The system may use multiple images, identified pieces, geometry, and user confirmation to reconstruct the likely structure.
 
@@ -1268,7 +1268,7 @@ The editor should understand valid magnetic tile connection behavior whenever po
 
 ### Automatic Instruction Generation
 
-Once a sufficiently complete build model exists, Magnetic Builds may generate a proposed construction sequence.
+Once a sufficiently complete build model exists, Tileable may generate a proposed construction sequence.
 
 The system should consider:
 
@@ -1323,7 +1323,7 @@ PDF should be treated as an output format rather than the primary source of inst
 
 ### Instructions From Real Builds
 
-When instructions are created from a real-world build, Magnetic Builds should preserve the relationship between:
+When instructions are created from a real-world build, Tileable should preserve the relationship between:
 
 - Original photos
 - Digital model
@@ -1336,7 +1336,7 @@ This allows someone to return later and improve the instructions without losing 
 
 ## Builder Experience & Difficulty
 
-Magnetic Builds should recognize that the person using the platform may not be the same person physically constructing or playing with the build.
+Tileable should recognize that the person using the platform may not be the same person physically constructing or playing with the build.
 
 A build may involve:
 
@@ -1417,7 +1417,7 @@ This context may affect recommendations for stability, size, complexity, and rei
 
 ## Navigation & Information Architecture
 
-Magnetic Builds should organize a potentially complex system in a way that remains approachable for casual use.
+Tileable should organize a potentially complex system in a way that remains approachable for casual use.
 
 The underlying product may contain detailed information about collections, pieces, builds, instructions, attempts, stability, and compatibility, but users should not need to understand that structure before they can begin using the platform.
 
@@ -1487,7 +1487,7 @@ The product should provide access to the following functional areas, whether or 
 
 ### Progressive Complexity
 
-Magnetic Builds should reveal complexity when it becomes useful.
+Tileable should reveal complexity when it becomes useful.
 
 A new user should be able to save a photo or add a set without first configuring every possible preference.
 
@@ -1559,7 +1559,7 @@ Builds should contain structured information that makes them easier to organize,
 
 Metadata should support useful discovery without requiring creators to manually complete an excessive number of fields.
 
-Where appropriate, Magnetic Builds may suggest metadata automatically and allow the user to confirm or modify it.
+Where appropriate, Tileable may suggest metadata automatically and allow the user to confirm or modify it.
 
 ### Build Categories
 
@@ -1652,7 +1652,7 @@ Tags may be private, public, system-generated, or creator-provided depending on 
 
 ### Automatic Classification
 
-When sufficient information exists, Magnetic Builds may suggest categories, characteristics, and tags based on:
+When sufficient information exists, Tileable may suggest categories, characteristics, and tags based on:
 
 - Photos
 - Piece inventory
@@ -1666,7 +1666,7 @@ Automatically generated classifications should remain editable.
 
 ## Saved Content & Personal Organization
 
-Magnetic Builds should help users organize builds and inspiration without requiring a complicated filing system.
+Tileable should help users organize builds and inspiration without requiring a complicated filing system.
 
 Saving something should be fast. Organization can happen immediately or later.
 
@@ -1705,7 +1705,7 @@ A build or inspiration item may belong to multiple collections.
 
 ### Smart Collections
 
-Magnetic Builds may automatically create useful dynamic collections based on existing information.
+Tileable may automatically create useful dynamic collections based on existing information.
 
 Examples:
 
@@ -1731,7 +1731,7 @@ Smart collections should update automatically as relevant information changes.
 
 ### Collection Changes
 
-When a user adds a new magnetic tile set or additional pieces, Magnetic Builds should be able to reevaluate previously saved builds.
+When a user adds a new magnetic tile set or additional pieces, Tileable should be able to reevaluate previously saved builds.
 
 For example:
 
@@ -1771,7 +1771,7 @@ History should help users recover useful ideas without requiring them to remembe
 
 ## Sets & Collection Onboarding
 
-Magnetic Builds should make creating an accurate collection as easy as reasonably possible.
+Tileable should make creating an accurate collection as easy as reasonably possible.
 
 Collection setup should support both users who know exactly which sets they own and users who have a mixed collection with incomplete information.
 
@@ -1791,7 +1791,7 @@ Use packaging, a barcode, product information, or another supported identifier t
 Manually enter individual piece quantities.
 
 **Help Me Identify My Collection**  
-Provide photos of available pieces and allow Magnetic Builds to assist with identification.
+Provide photos of available pieces and allow Tileable to assist with identification.
 
 **Skip for Now**  
 Begin saving inspiration or builds without creating a collection.
@@ -1809,13 +1809,13 @@ When adding a known set, the user should be able to search by information such a
 - Product line
 - Barcode, where available
 
-After selecting a set, Magnetic Builds should display the expected contents before adding them to the collection.
+After selecting a set, Tileable should display the expected contents before adding them to the collection.
 
 The user may specify quantity when they own more than one copy.
 
 ### Collection From Photos
 
-Users may optionally photograph their magnetic tile collection and allow Magnetic Builds to estimate its contents.
+Users may optionally photograph their magnetic tile collection and allow Tileable to estimate its contents.
 
 Photo-based inventory may attempt to identify:
 
@@ -1831,7 +1831,7 @@ The user should be able to correct the resulting inventory.
 
 ### Mixed Collections
 
-Magnetic Builds should support collections containing multiple brands.
+Tileable should support collections containing multiple brands.
 
 Users should not be forced to maintain completely separate collections simply because pieces came from different manufacturers.
 
@@ -1876,7 +1876,7 @@ Color should be treated as optional inventory information.
 
 Many magnetic tile sets may not publish exact color quantities, and users should not be required to count colors manually unless they want that level of detail.
 
-By default, Magnetic Builds should determine buildability based on piece type, quantity, compatibility, and structural requirements rather than color.
+By default, Tileable should determine buildability based on piece type, quantity, compatibility, and structural requirements rather than color.
 
 Color information may come from:
 
@@ -1915,11 +1915,11 @@ The product should remain useful even when collection accuracy is incomplete.
 
 ## Community & Public Build Library
 
-Magnetic Builds may eventually allow users to publish builds, instructions, variations, and real-world results to a shared build library.
+Tileable may eventually allow users to publish builds, instructions, variations, and real-world results to a shared build library.
 
 The community should be designed around helping people discover, successfully recreate, and improve magnetic tile builds rather than creating a traditional social media experience.
 
-Public participation should always be optional. Users should be able to use Magnetic Builds as a private workspace without publishing anything.
+Public participation should always be optional. Users should be able to use Tileable as a private workspace without publishing anything.
 
 ### Build Visibility
 
@@ -2023,7 +2023,7 @@ Attempt information should improve understanding of the build rather than functi
 
 ### Community Knowledge
 
-When multiple users attempt the same build, Magnetic Builds may summarize useful patterns.
+When multiple users attempt the same build, Tileable may summarize useful patterns.
 
 For example:
 
@@ -2105,7 +2105,7 @@ This allows users to explore how an idea has evolved while preserving attributio
 
 ### Community Without Social Pressure
 
-Magnetic Builds does not need to become a traditional social network.
+Tileable does not need to become a traditional social network.
 
 Community features should prioritize:
 
@@ -2155,7 +2155,7 @@ Successful solutions may later become:
 
 ## Creator Attribution & Source Preservation
 
-Magnetic Builds should preserve the origin of ideas whenever that origin is known.
+Tileable should preserve the origin of ideas whenever that origin is known.
 
 Saving, analyzing, modifying, or recreating an external build should not imply authorship of the original design.
 
@@ -2175,7 +2175,7 @@ Source information should remain associated with builds derived from that inspir
 
 ### Derived Builds
 
-When a user creates a build based substantially on another known build, Magnetic Builds should preserve that relationship.
+When a user creates a build based substantially on another known build, Tileable should preserve that relationship.
 
 Possible labels include:
 
@@ -2196,7 +2196,7 @@ The interface does not necessarily need to display the entire lineage everywhere
 
 ### External Content
 
-External images and instructions should not automatically become public Magnetic Builds content merely because a user saved them privately.
+External images and instructions should not automatically become public Tileable content merely because a user saved them privately.
 
 Public sharing, reproduction, and redistribution of third-party material should be handled separately from private inspiration storage.
 
@@ -2204,7 +2204,7 @@ Where possible, public records derived from external inspiration should link use
 
 ## Accounts, Privacy & Ownership
 
-Magnetic Builds should support private personal use as a complete experience. Public participation should remain optional.
+Tileable should support private personal use as a complete experience. Public participation should remain optional.
 
 Users should maintain control over their builds, photos, notes, collections, attempts, and publishing choices.
 
@@ -2245,7 +2245,7 @@ Publishing should be a deliberate action.
 
 Magnetic tile photos may unintentionally contain people, children, homes, names, addresses, school information, or other personal details.
 
-Before public publishing, Magnetic Builds may warn users when potentially personal information appears in uploaded media.
+Before public publishing, Tileable may warn users when potentially personal information appears in uploaded media.
 
 Where technically practical, the platform may offer tools such as:
 
@@ -2258,7 +2258,7 @@ Private photo storage should remain distinct from public publishing.
 
 ### Child Privacy
 
-Magnetic Builds may frequently be used by adults building with children.
+Tileable may frequently be used by adults building with children.
 
 The product should avoid requiring personally identifying information about children.
 
@@ -2276,7 +2276,7 @@ The product should not require a child's name, photograph, birthday, or personal
 
 Users should retain appropriate ownership of original content they create, subject to the platform's future terms of service.
 
-Publishing a build should grant Magnetic Builds only the permissions necessary to display and operate the shared build library.
+Publishing a build should grant Tileable only the permissions necessary to display and operate the shared build library.
 
 The exact legal terms should be established before public launch.
 
@@ -2311,13 +2311,13 @@ Export formats can be determined later.
 
 ## Safety & Moderation
 
-Magnetic Builds should encourage creative experimentation while recognizing that physical builds, small components, moving pieces, elevated structures, and third-party accessories may introduce safety considerations.
+Tileable should encourage creative experimentation while recognizing that physical builds, small components, moving pieces, elevated structures, and third-party accessories may introduce safety considerations.
 
 The platform should provide useful context without presenting itself as a substitute for manufacturer safety guidance or adult judgment.
 
 ### Manufacturer Guidance
 
-Where relevant, Magnetic Builds should preserve or reference known manufacturer guidance such as:
+Where relevant, Tileable should preserve or reference known manufacturer guidance such as:
 
 - Recommended ages
 - Small-part warnings
@@ -2377,7 +2377,7 @@ and
 
 ## Business & Monetization Possibilities
 
-Magnetic Builds should initially prioritize creating a useful product and validating whether people genuinely want to use it.
+Tileable should initially prioritize creating a useful product and validating whether people genuinely want to use it.
 
 The architecture should avoid unnecessarily preventing future monetization, but revenue generation should not compromise the usefulness of the core experience.
 
@@ -2399,7 +2399,7 @@ Core functionality should not be intentionally frustrating simply to force an up
 
 ### Optional Support
 
-Users may eventually be able to financially support Magnetic Builds voluntarily.
+Users may eventually be able to financially support Tileable voluntarily.
 
 Examples may include:
 
@@ -2436,7 +2436,7 @@ Possibilities may include:
 - Premium builds
 - Creator memberships
 
-If implemented, Magnetic Builds should clearly distinguish original creator content from builds derived substantially from other sources.
+If implemented, Tileable should clearly distinguish original creator content from builds derived substantially from other sources.
 
 Creator monetization would require appropriate payment, refund, ownership, licensing, and moderation policies.
 
@@ -2459,7 +2459,7 @@ Brand partnerships should not allow manufacturers to manipulate independent buil
 
 ### Affiliate Commerce
 
-When a user genuinely needs additional pieces or sets, Magnetic Builds could potentially provide purchase options.
+When a user genuinely needs additional pieces or sets, Tileable could potentially provide purchase options.
 
 However, purchase recommendations should come after useful alternatives such as:
 
@@ -2486,7 +2486,7 @@ A useful recommendation may sometimes be:
 
 ## Product Scope & Development Horizons
 
-Magnetic Builds describes a broad long-term product vision.
+Tileable describes a broad long-term product vision.
 
 The complete vision should guide architectural decisions, but the product does not need to implement every capability at once.
 
@@ -2498,7 +2498,7 @@ A feature associated with a later horizon may be implemented earlier when it is 
 
 ### Horizon 1 — Personal Alpha
 
-**Goal: Create a genuinely useful version of Magnetic Builds for one person using their own magnetic tile collection and real-world builds.**
+**Goal: Create a genuinely useful version of Tileable for one person using their own magnetic tile collection and real-world builds.**
 
 This version should establish the core data relationships and allow the product to begin accumulating useful build knowledge.
 
@@ -2530,11 +2530,11 @@ Manual information may be used where automation does not yet exist.
 
 The primary question for this horizon is:
 
-**"Can Magnetic Builds become useful enough that I actually want to use it while we're building?"**
+**"Can Tileable become useful enough that I actually want to use it while we're building?"**
 
 ### Horizon 2 — Intelligent Private Product
 
-**Goal: Reduce manual work and make Magnetic Builds actively helpful during discovery, documentation, and construction.**
+**Goal: Reduce manual work and make Tileable actively helpful during discovery, documentation, and construction.**
 
 Capabilities may include:
 
@@ -2561,15 +2561,15 @@ Capabilities may include:
 - Interactive Build Mode
 - Printable instruction generation
 
-This horizon should increasingly allow the user to interact with Magnetic Builds conversationally rather than manually maintaining every detail.
+This horizon should increasingly allow the user to interact with Tileable conversationally rather than manually maintaining every detail.
 
 The primary question becomes:
 
-**"Can Magnetic Builds understand enough about my tiles and my builds to meaningfully help me?"**
+**"Can Tileable understand enough about my tiles and my builds to meaningfully help me?"**
 
 ### Horizon 3 — Private Beta
 
-**Goal: Allow other households to use Magnetic Builds successfully without requiring knowledge of how the product was created.**
+**Goal: Allow other households to use Tileable successfully without requiring knowledge of how the product was created.**
 
 This horizon may introduce:
 
@@ -2594,7 +2594,7 @@ The product should no longer assume that the person using it understands the und
 
 The primary question becomes:
 
-**"Can someone who did not build Magnetic Builds understand it and get value from it?"**
+**"Can someone who did not build Tileable understand it and get value from it?"**
 
 ### Horizon 4 — Community Knowledge
 
@@ -2631,7 +2631,7 @@ The primary question becomes:
 
 ### Horizon 5 — Platform
 
-**Goal: Develop Magnetic Builds into a broader ecosystem for magnetic tile building, creation, and shared knowledge.**
+**Goal: Develop Tileable into a broader ecosystem for magnetic tile building, creation, and shared knowledge.**
 
 Possible capabilities may include:
 
@@ -2656,7 +2656,7 @@ This horizon should only develop in directions supported by actual user behavior
 
 The primary question becomes:
 
-**"What should Magnetic Builds become now that we know how people actually use it?"**
+**"What should Tileable become now that we know how people actually use it?"**
 
 ### Horizon Principles
 
