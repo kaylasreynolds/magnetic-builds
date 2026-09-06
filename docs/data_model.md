@@ -1,8 +1,8 @@
-# Magnetic Builds — Data Model
+# Tileable — Data Model
 
 ## Purpose
 
-This document defines the core information model for Magnetic Builds.
+This document defines the core information model for Tileable.
 
 The goal is to establish what entities exist, how they relate, and which distinctions must be preserved before those concepts are translated into a specific database schema.
 
@@ -14,7 +14,7 @@ Not every entity or relationship described here must be fully implemented in the
 
 ### Preserve Reality, Estimates, and Theory Separately
 
-Magnetic Builds will contain information from many different sources, including:
+Tileable will contain information from many different sources, including:
 
 - Manufacturer specifications
 - User-entered information
@@ -47,7 +47,7 @@ The model should allow incomplete records to become more complete over time.
 
 A successful build should not erase the attempts, failures, modifications, or observations that led to it.
 
-Where useful, Magnetic Builds should preserve the evolution of a build.
+Where useful, Tileable should preserve the evolution of a build.
 
 ### Separate Identity From Quantity
 
@@ -67,11 +67,11 @@ An Attempt represents a real-world effort to construct that build.
 
 One Build may have many Attempts.
 
-This distinction allows Magnetic Builds to learn from both successful and unsuccessful real-world results.
+This distinction allows Tileable to learn from both successful and unsuccessful real-world results.
 
 ### Design for Relationships
 
-Magnetic Builds should favor explicit relationships over duplicating information.
+Tileable should favor explicit relationships over duplicating information.
 
 For example:
 
@@ -156,7 +156,7 @@ Examples:
 - Door
 - Window
 
-Piece Families allow Magnetic Builds to reason about what a build fundamentally requires without assuming every manufacturer's implementation is identical.
+Piece Families allow Tileable to reason about what a build fundamentally requires without assuming every manufacturer's implementation is identical.
 
 For example:
 
@@ -399,7 +399,7 @@ Examples include:
 - Photo of someone else's build
 - User's own rough idea
 - Reference image
-- Existing Magnetic Builds build
+- Existing Tileable build
 
 An Inspiration record may contain:
 
@@ -545,7 +545,7 @@ It may contain:
 - Source
 - Confidence
 
-This distinction allows Magnetic Builds to express requirements such as:
+This distinction allows Tileable to express requirements such as:
 
 > 8 standard squares from any compatible brand
 
@@ -664,7 +664,7 @@ Attempt Piece Usage may record:
 - Whether it was added as reinforcement
 - Notes
 
-This allows Magnetic Builds to learn the difference between:
+This allows Tileable to learn the difference between:
 
 **What the instructions said was needed**
 
@@ -895,7 +895,7 @@ Possible actions may include:
 - Connect
 - Disconnect
 
-This structure allows Magnetic Builds to generate useful step-level piece preparation and visual highlighting.
+This structure allows Tileable to generate useful step-level piece preparation and visual highlighting.
 
 ### Instruction Feedback
 
@@ -919,7 +919,7 @@ Repeated feedback may eventually support suggested instruction improvements.
 
 ### Media Asset
 
-A Media Asset represents an image, video, rendering, diagram, or other visual resource associated with Magnetic Builds content.
+A Media Asset represents an image, video, rendering, diagram, or other visual resource associated with Tileable content.
 
 A Media Asset may be associated with:
 
@@ -1097,7 +1097,7 @@ Build Version
 
 ## Evidence, Provenance & Confidence
 
-Magnetic Builds should preserve not only information, but how that information became known.
+Tileable should preserve not only information, but how that information became known.
 
 The same value may have very different reliability depending on its source.
 
@@ -1232,7 +1232,7 @@ This is more useful than labeling the entire analysis "70% confident."
 
 ### Conflicting Evidence
 
-Magnetic Builds should allow different evidence sources to disagree.
+Tileable should allow different evidence sources to disagree.
 
 For example:
 
@@ -1324,7 +1324,7 @@ This principle should apply throughout the product.
 
 ### User
 
-A User represents a person with a Magnetic Builds account.
+A User represents a person with a Tileable account.
 
 A User may have:
 
@@ -1712,7 +1712,7 @@ Build
 
 ## Conceptual Entity Relationship Summary
 
-The major Magnetic Builds entities can be viewed as several connected domains.
+The major Tileable entities can be viewed as several connected domains.
 
 ### Collection Domain
 
@@ -1851,4 +1851,3 @@ In particular, the first implementation should avoid collapsing:
 - Build lineage into duplicated independent records
 
 The implementation schema should be designed around the first useful product while preserving a reasonable path toward this broader model.
-
