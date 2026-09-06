@@ -10,6 +10,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "test": "node --test --experimental-strip-types src/lib/builds.test.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply magnetic-builds-production --local --config wrangler.toml --persist-to .wrangler/state",
     "db:migrate": "wrangler d1 migrations apply magnetic-builds-production --remote --config wrangler.toml",
