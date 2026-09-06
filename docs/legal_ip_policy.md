@@ -2,9 +2,11 @@
 
 ## Status
 
-Approved project policy. These rules are implementation constraints for Tileable and should be treated as authoritative when designing future product features.
+Approved project policy. These rules are implementation constraints for Tileable and are authoritative when designing future product features.
 
 This document is a product-policy record, not a substitute for legal advice. Formal trademark filing and final public legal documents should be reviewed by qualified counsel before launch where appropriate.
+
+Where an older product document still contains wording that conflicts with an approved rule below, **this policy controls** until that legacy section is updated during normal feature work.
 
 ## 0A — Brand Name and Trademark Direction
 
@@ -39,7 +41,7 @@ Tileable must maintain its **own factual database and taxonomy**. Do not copy an
 
 ### Restricted by default
 
-Do not use without permission, license, or another clearly documented right:
+Do not use without permission, license, ownership, or another clearly documented right:
 
 - Manufacturer logos
 - Official manufacturer or retailer product photography
@@ -49,6 +51,13 @@ Do not use without permission, license, or another clearly documented right:
 - Manufacturer build guides or instructional images
 
 Product photography and other media must have documented provenance and usage rights appropriate to the intended use.
+
+Allowed product-media sources may include:
+
+- Tileable-owned photography
+- Manufacturer-approved or licensed imagery
+- Affiliate/API imagery where program terms authorize the use
+- Other properly licensed media
 
 ### Manufacturer outreach
 
@@ -76,6 +85,24 @@ Before public user-generated-content submission launches, uploaders must affirm 
 
 Copied creator content is prohibited. Users may not upload another person's photos, instructions, paid/free build files, or other protected content and represent it as their own.
 
+### External inspiration
+
+External inspiration should use a source-reference model by default.
+
+Tileable may store:
+
+- Source URL
+- Source platform/site
+- Creator attribution when known
+- Original title when known
+- User notes
+
+Tileable must not assume that screenshots, manufacturer guides, retailer imagery, or another creator's photographs may be copied and rehosted merely because they are publicly accessible.
+
+Uploaded reference media is allowed only when the uploader owns the media or has the necessary rights/permission to upload it.
+
+Licensed embeds, APIs, affiliate feeds, manufacturer-approved media, and similar authorized sources may be used when their terms permit the intended use.
+
 ### DMCA timing
 
 Before **public user-generated-content uploads** launch, Tileable must have:
@@ -100,7 +127,31 @@ This is not required merely for the current private Personal Alpha if public UGC
 - Fan-inspired builds may be allowed subject to platform rules, non-affiliation treatment, and takedowns.
 - Tileable should not use third-party logos as category graphics or imply that fan builds are officially licensed.
 
-## 0D — Privacy, Accounts, and COPPA
+## 0D — Media Rights and Provenance
+
+Hosted media should preserve enough rights/provenance information to determine whether Tileable may lawfully host and display it.
+
+The media model should be able to distinguish states such as:
+
+- Tileable-owned
+- User-owned
+- Manufacturer-approved
+- Affiliate/API licensed
+- Other licensed media
+- External reference only
+
+Potential metadata may include:
+
+- Rights basis/source
+- Rights holder when known
+- License or permission reference
+- Whether hosting is permitted
+- Whether attribution is required
+- Required attribution text
+
+Do **not** add database fields solely for policy completeness. Add the concrete fields when media functionality is implemented, using the simplest structure that satisfies this requirement.
+
+## 0E — Privacy, Accounts, and COPPA
 
 ### Intended audience
 
@@ -135,6 +186,8 @@ Collect only what the product actually needs. Expected account information may i
 - Never display user email publicly.
 - Do not publicly expose age, birthday, school, location, or child-identifying information.
 
+Any older documentation that refers to a user-uploaded profile image is superseded by the curated-avatar requirement.
+
 ### Privacy controls
 
 - A Privacy Policy is required before public account launch.
@@ -142,7 +195,21 @@ Collect only what the product actually needs. Expected account information may i
 - Tileable does not sell users' personal information.
 - Any future advertising technology or expanded data-sharing model requires a new privacy review before activation.
 
-## 0E — Monetization
+## 0F — Public UGC Launch Gate
+
+Before public community uploads/publishing are enabled, Tileable must have:
+
+- DMCA designated-agent registration
+- Public DMCA contact information
+- Copyright/DMCA policy
+- Takedown and counter-notice workflows
+- Repeat-infringer policy
+- Uploader rights certification
+- Creator attribution support
+
+These requirements do not block the current private Personal Alpha.
+
+## 0G — Monetization
 
 ### MVP model
 
@@ -171,8 +238,14 @@ Final wording should comply with the specific affiliate program and applicable d
 
 ### Later monetization
 
-Once Tileable has meaningful traffic and visibility, revisit additional income sources. New revenue methods should receive product, privacy, and legal review before implementation rather than being assumed to fit the MVP policy automatically.
+Once Tileable has meaningful traffic and visibility, revisit additional income sources.
+
+Future possibilities such as premium features, creator monetization, partnerships, sponsorships, or advertising remain open, but they are **not current MVP requirements**. Each should receive product, privacy, and legal review before implementation.
 
 ## Documentation and Implementation Rule
 
-When this policy conflicts with an older product document, schema concept, or implementation-plan assumption, **do not silently overwrite the older requirement**. Record the conflict, review the change, and then update the affected documentation after approval.
+1. This policy is authoritative for legal/IP/privacy/monetization constraints.
+2. New feature documentation must follow it.
+3. When a legacy section is touched for feature work, remove or update superseded wording at the same time.
+4. Do not create unnecessary migrations or infrastructure merely to mirror future policy requirements before the related feature exists.
+5. `documentation_conflict_review.md` records the approved resolutions that produced this policy.
