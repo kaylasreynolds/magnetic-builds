@@ -11,6 +11,16 @@ type Props = {
   pieceCatalog: PieceDefinitionCatalogItem[];
 };
 
+function compactPieceLabel(pieceName: string, familyName: string) {
+  const name = pieceName.trim();
+  const family = familyName.trim();
+  if (name.toLowerCase().endsWith(family.toLowerCase())) {
+    const prefix = name.slice(0, name.length - family.length).trim().replace(/[\s:–—-]+$/, "").trim();
+    if (prefix) return prefix;
+  }
+  return name;
+}
+
 export default function PieceInventoryEditor({ pieces, pieceCatalog }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -123,29 +133,32 @@ export default function PieceInventoryEditor({ pieces, pieceCatalog }: Props) {
                 </div>
 
                 <div className="piece-list">
-                  {familyPieces.map((piece) => (
-                    <button
-                      className="piece-row piece-row-editable"
-                      key={`${piece.pieceDefinitionId}:${piece.color ?? ""}`}
-                      type="button"
-                      onClick={() => openEditor(piece)}
-                      aria-label={`Correct quantity for ${piece.pieceName}`}
-                    >
-                      <div className="piece-symbol" aria-hidden="true">◇</div>
-                      <div className="piece-row-copy">
-                        <strong>{piece.pieceName}</strong>
-                        {piece.color ? <span>{piece.color}</span> : null}
+                  {familyPieces.map((piece) => {
+                    const pieceLabel = compactPieceLabel(piece.pieceName, piece.pieceFamilyName);
+                    return (
+                      <div className="piece-row" key={`${piece.pieceDefinitionId}:${piece.color ?? ""}`}>
+                        <div className="piece-symbol" aria-hidden="true">◇</div>
+                        <div className="piece-row-copy">
+                          <strong>{pieceLabel}</strong>
+                          {piece.color ? <span>{piece.color}</span> : null}
+                        </div>
+                        <div className="piece-count piece-count-actions">
+                          <strong>{piece.usableQuantity}</strong>
+                          {piece.adjustment !== 0 ? (
+                            <span>{piece.adjustment > 0 ? "+" : ""}{piece.adjustment} adjusted</span>
+                          ) : null}
+                          <button
+                            className="piece-adjust-action"
+                            type="button"
+                            onClick={() => openEditor(piece)}
+                            aria-label={`Edit count for ${piece.pieceName}`}
+                          >
+                            Edit count
+                          </button>
+                        </div>
                       </div>
-                      <div className="piece-count">
-                        <strong>{piece.usableQuantity}</strong>
-                        {piece.adjustment !== 0 ? (
-                          <span>{piece.adjustment > 0 ? "+" : ""}{piece.adjustment} adj.</span>
-                        ) : (
-                          <span>Tap to correct</span>
-                        )}
-                      </div>
-                    </button>
-                  ))}
+                    );
+                  })}
                 </div>
               </section>
             );
@@ -165,8 +178,9 @@ export default function PieceInventoryEditor({ pieces, pieceCatalog }: Props) {
             <div className="piece-adjust-handle" aria-hidden="true" />
             <div className="piece-adjust-heading">
               <div>
-                <p className="section-kicker">Correct Quantity</p>
-                <h2 id="piece-adjust-title">{selected.pieceName}</h2>
+                <p className="section-kicker">Update Count</p>
+                <h2 id="piece-adjust-title">{selected.pieceFamilyName}</h2>
+                <p className="piece-definition-label">{compactPieceLabel(selected.pieceName, selected.pieceFamilyName)}</p>
                 {selected.color ? <p>{selected.color}</p> : null}
               </div>
               <button type="button" className="sheet-close" onClick={closeEditor} aria-label="Close">×</button>
@@ -194,7 +208,7 @@ export default function PieceInventoryEditor({ pieces, pieceCatalog }: Props) {
             {error ? <p className="collection-error" role="alert">{error}</p> : null}
 
             <button className="primary-action" type="button" onClick={saveCorrection} disabled={isPending}>
-              {isPending ? "Saving…" : "Save Correction"}
+              {isPending ? "Saving…" : "Save Count"}
             </button>
           </section>
         </div>
@@ -243,7 +257,7 @@ export default function PieceInventoryEditor({ pieces, pieceCatalog }: Props) {
                       }}
                     >
                       <span>{piece.pieceFamilyName}</span>
-                      <strong>{piece.pieceName}</strong>
+                      <strong>{compactPieceLabel(piece.pieceName, piece.pieceFamilyName)}</strong>
                     </button>
                   ))}
                 </div>
@@ -256,7 +270,7 @@ export default function PieceInventoryEditor({ pieces, pieceCatalog }: Props) {
 
                 <div className="loose-piece-selected">
                   <span>{loosePiece.pieceFamilyName}</span>
-                  <strong>{loosePiece.pieceName}</strong>
+                  <strong>{compactPieceLabel(loosePiece.pieceName, loosePiece.pieceFamilyName)}</strong>
                 </div>
 
                 <label className="piece-actual-field">
