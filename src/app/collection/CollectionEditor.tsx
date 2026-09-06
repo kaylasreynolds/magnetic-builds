@@ -27,6 +27,10 @@ export default function CollectionEditor({
   const [selected, setSelected] = useState<CollectionSetSummary | null>(null);
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [addingSetId, setAddingSetId] = useState<string | null>(null);
+  const [justAddedSetId, setJustAddedSetId] = useState<string | null>(null);
+  const [confirmRemoval, setConfirmRemoval] = useState(false);
 
   const ownedBySetId = useMemo(
     () => new Map(ownedSets.map((set) => [set.setId, set])),
@@ -58,14 +62,45 @@ export default function CollectionEditor({
     setSelected(set);
     setMode("edit");
     setError("");
+    setNotice("");
+    setConfirmRemoval(false);
   };
 
-  const closeSheet = () => {
-    if (isPending) return;
+  const resetSheetState = () => {
     setMode(null);
     setSelected(null);
     setQuery("");
     setError("");
+    setNotice("");
+    setAddingSetId(null);
+    setJustAddedSetId(null);
+    setConfirmRemoval(false);
+  };
+
+  const closeSheet = () => {
+    if (isPending) return;
+    resetSheetState();
+  };
+
+  const addSet = (set: CollectionSetCatalogItem) => {
+    setAddingSetId(set.setId);
+    setError("");
+    setNotice("");
+    startTransition(async () => {
+      try {
+        await addOwnedSet(set.setId);
+        setAddingSetId(null);
+        setNotice(`${set.setName} added to your collection.`);
+        setJustAddedSetId(set.setId);
+        window.setTimeout(() => {
+          setJustAddedSetId((current) => current === set.setId ? null : current);
+        }, 650);
+        router.refresh();
+      } catch (err) {
+        setAddingSetId(null);
+        setError(err instanceof Error ? err.message : "Something went wrong.");
+      }
+    });
   };
 
   if (ownedSets.length === 0) {
@@ -200,27 +235,31 @@ export default function CollectionEditor({
             autoFocus
           />
 
-          {error && <p className="collection-error" role="alert">{error}</p>}
+          {notice ? <p className="collection-success" role="status" aria-live="polite">✓ {notice}</p> : null}
+          {error ? <p className="collection-error" role="alert">{error}</p> : null}
 
           <div className="set-picker-list">
             {filteredCatalog.length === 0 ? (
               <p className="collection-helper">No matching sets found.</p>
             ) : filteredCatalog.map((set) => {
               const owned = ownedBySetId.get(set.setId);
+              const isAdding = addingSetId === set.setId;
+              const justAdded = justAddedSetId === set.setId;
               return (
                 <div className="set-picker-row" key={set.setId}>
                   <div className="set-picker-copy">
                     <p className="set-brand">{set.brandName}</p>
                     <strong>{set.setName}</strong>
                     <span>{set.advertisedPieceCount ?? set.calculatedPieceCount} pieces</span>
+                    {owned ? <span className="owned-count">You own {owned.quantityOwned}</span> : null}
                   </div>
                   <button
-                    className="set-picker-action"
+                    className={`set-picker-action${justAdded ? " is-added" : ""}`}
                     type="button"
                     disabled={isPending}
-                    onClick={() => run(() => addOwnedSet(set.setId))}
+                    onClick={() => addSet(set)}
                   >
-                    {owned ? `Add · Qty ${owned.quantityOwned}` : "Add"}
+                    {isAdding ? "Adding…" : "Add 1"}
                   </button>
                 </div>
               );
@@ -233,6 +272,7 @@ export default function CollectionEditor({
 
   function renderEditSheet(set: CollectionSetSummary) {
     const current = ownedBySetId.get(set.setId) ?? set;
+    const removingOneCopy = current.quantityOwned > 1;
     return (
       <div className="collection-sheet-backdrop" role="presentation" onMouseDown={closeSheet}>
         <section
@@ -270,20 +310,49 @@ export default function CollectionEditor({
             </div>
           </div>
 
-          {error && <p className="collection-error" role="alert">{error}</p>}
+          {error ? <p className="collection-error" role="alert">{error}</p> : null}
 
-          <button
-            className="remove-set-action"
-            type="button"
-            disabled={isPending}
-            onClick={() => {
-              if (window.confirm(`Remove ${current.setName} from your collection?`)) {
-                run(() => removeOwnedSet(current.ownedSetId), closeSheet);
-              }
-            }}
-          >
-            Remove from Collection
-          </button>
+          {!confirmRemoval ? (
+            <button
+              className="remove-set-action"
+              type="button"
+              disabled={isPending}
+              onClick={() => setConfirmRemoval(true)}
+            >
+              {removingOneCopy ? "Remove One Copy" : "Remove Set from Collection"}
+            </button>
+          ) : (
+            <div className="remove-confirmation" role="alertdialog" aria-label="Confirm removal">
+              <strong>{removingOneCopy ? "Remove one copy?" : "Remove this set?"}</strong>
+              <p>
+                {removingOneCopy
+                  ? `You currently own ${current.quantityOwned}. After this, you’ll still own ${current.quantityOwned - 1}.`
+                  : "This will remove the set and its calculated pieces from your collection."}
+              </p>
+              <div className="remove-confirmation-actions">
+                <button type="button" className="secondary-action" disabled={isPending} onClick={() => setConfirmRemoval(false)}>
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="remove-set-action"
+                  disabled={isPending}
+                  onClick={() => {
+                    if (removingOneCopy) {
+                      run(
+                        () => updateOwnedSetQuantity(current.ownedSetId, current.quantityOwned - 1),
+                        () => setConfirmRemoval(false),
+                      );
+                    } else {
+                      run(() => removeOwnedSet(current.ownedSetId), resetSheetState);
+                    }
+                  }}
+                >
+                  {isPending ? "Removing…" : removingOneCopy ? "Remove One Copy" : "Remove Set"}
+                </button>
+              </div>
+            </div>
+          )}
         </section>
       </div>
     );
