@@ -1,10 +1,10 @@
 # Milestone 1 — My Collection
 
-**Status: functionally complete and production-verified; real-world usability validation in progress**
+**Status: complete, production-verified, and real-world usability validated**
 
-Milestone 1 is functionally complete. The user can add actual magnetic tile sets, see the resulting derived piece inventory, correct inaccurate quantities, add loose pieces, and retain the collection across refresh/restart without creating a second inventory source of truth.
+Milestone 1 is complete. The user can add actual magnetic tile sets, see the resulting derived piece inventory, correct inaccurate quantities, add loose pieces, and retain the collection across refresh/restart without creating a second inventory source of truth.
 
-Real-world use surfaced usability defects that are being treated as Milestone 1 validation repairs rather than new product scope.
+Real-world hands-on testing surfaced usability defects, those defects were repaired in the Milestone 1 usability pass, and the workflow was successfully retested after deployment.
 
 ## Slice 1: Collection overview — complete
 
@@ -64,29 +64,22 @@ Implementation rule:
 - loose pieces remain additive adjustments to the derived inventory model
 - user-created piece definitions remain out of scope for Personal Alpha
 
-## Real-world usability validation — repair pass
+## Real-world usability validation — complete
 
-Observed during hands-on use:
-- dark-mode collection and piece-edit sheets used hard-coded light colors and appeared washed out
-- add-set actions lacked clear hover/press feedback and a success confirmation
-- add-set copy used an ambiguous `Add · Qty N` label that mixed on-hand quantity with the action being taken
-- removing one duplicate copy could delete the entire owned-set row
-- piece labels repeated the family name, producing labels such as `Standard Square` followed by `MAGNA-TILES Standard Square`
-- the entire piece row acted as an invisible correction control, making accidental edits too easy
+Hands-on use identified and verified fixes for:
+- dark-mode collection and piece-edit sheets
+- add-set hover, press, animation, and success feedback
+- clearer `Add 1` wording with current ownership shown separately
+- safe duplicate-copy removal without deleting the full owned-set row
+- less repetitive piece labels
+- explicit `Edit count` controls instead of entire rows acting as hidden edit buttons
+- redundant duplicate color labels such as `Green` / `green`
 
-Repair requirements:
-- modal/sheet colors follow theme variables in both light and dark mode
-- Add uses visible hover/press feedback, a short completion animation, and a `Set added` confirmation
-- Add action is labeled `Add 1`; current ownership is shown separately as `You own N`
-- quantity > 1 uses an explicit `Remove One Copy` flow and preserves the remaining copies
-- repetitive piece-definition labels collapse to the distinguishing portion, such as the brand name
-- piece rows are informational; an explicit `Edit count` control opens quantity editing
-
-Milestone 1 should be considered **real-world usability validated** only after this repair pass is deployed and the hands-on collection test is repeated successfully.
+The repaired workflow was retested successfully after deployment. Milestone 1 is therefore considered **real-world usability validated**.
 
 ## Milestone 1 acceptance verification
 
-The functional Milestone 1 acceptance criteria in `docs/implementation_plan.md` are satisfied:
+The Milestone 1 acceptance criteria in `docs/implementation_plan.md` are satisfied:
 
 1. The application opens and the collection workflow is available.
 2. The user can add actual seeded magnetic tile sets and change owned copy counts.
