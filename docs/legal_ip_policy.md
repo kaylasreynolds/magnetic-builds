@@ -71,7 +71,7 @@ Tileable must not present manufacturer names, marks, or product references in a 
 
 A final public non-affiliation/trademark statement should be reviewed before launch.
 
-## 0C — User Content and DMCA
+## 0C — User Content, External Inspiration, and DMCA
 
 ### Creator ownership
 
@@ -103,33 +103,9 @@ Uploaded reference media is allowed only when the uploader owns the media or has
 
 Licensed embeds, APIs, affiliate feeds, manufacturer-approved media, and similar authorized sources may be used when their terms permit the intended use.
 
-### DMCA timing
+### Media rights and provenance
 
-Before **public user-generated-content uploads** launch, Tileable must have:
-
-- A registered DMCA designated agent
-- Public DMCA contact information
-- A copyright/DMCA policy
-- A takedown workflow
-- A counter-notice workflow
-- A repeat-infringer policy
-
-This is not required merely for the current private Personal Alpha if public UGC is not available.
-
-### Attribution and Tileable originals
-
-- Community-created builds should support creator attribution.
-- Tileable-created builds should be clearly distinguishable from community-created builds, e.g. **Tileable Original**.
-
-### Third-party IP / fan-inspired builds
-
-- Paid third-party-IP build content is not part of the MVP.
-- Fan-inspired builds may be allowed subject to platform rules, non-affiliation treatment, and takedowns.
-- Tileable should not use third-party logos as category graphics or imply that fan builds are officially licensed.
-
-## 0D — Media Rights and Provenance
-
-Hosted media should preserve enough rights/provenance information to determine whether Tileable may lawfully host and display it.
+Hosted media should preserve enough rights/provenance information to determine whether Tileable may host and display it.
 
 The media model should be able to distinguish states such as:
 
@@ -151,7 +127,33 @@ Potential metadata may include:
 
 Do **not** add database fields solely for policy completeness. Add the concrete fields when media functionality is implemented, using the simplest structure that satisfies this requirement.
 
-## 0E — Privacy, Accounts, and COPPA
+### DMCA timing / public UGC launch gate
+
+Before **public user-generated-content uploads** launch, Tileable must have:
+
+- A registered DMCA designated agent
+- Public DMCA contact information
+- A copyright/DMCA policy
+- A takedown workflow
+- A counter-notice workflow
+- A repeat-infringer policy
+- Uploader rights certification
+- Creator attribution support
+
+These requirements do not block the current private Personal Alpha.
+
+### Attribution and Tileable originals
+
+- Community-created builds should support creator attribution.
+- Tileable-created builds should be clearly distinguishable from community-created builds, e.g. **Tileable Original**.
+
+### Third-party IP / fan-inspired builds
+
+- Paid third-party-IP build content is not part of the MVP.
+- Fan-inspired builds may be allowed subject to platform rules, non-affiliation treatment, and takedowns.
+- Tileable should not use third-party logos as category graphics or imply that fan builds are officially licensed.
+
+## 0D — Privacy, Accounts, and COPPA
 
 ### Intended audience
 
@@ -195,21 +197,7 @@ Any older documentation that refers to a user-uploaded profile image is supersed
 - Tileable does not sell users' personal information.
 - Any future advertising technology or expanded data-sharing model requires a new privacy review before activation.
 
-## 0F — Public UGC Launch Gate
-
-Before public community uploads/publishing are enabled, Tileable must have:
-
-- DMCA designated-agent registration
-- Public DMCA contact information
-- Copyright/DMCA policy
-- Takedown and counter-notice workflows
-- Repeat-infringer policy
-- Uploader rights certification
-- Creator attribution support
-
-These requirements do not block the current private Personal Alpha.
-
-## 0G — Monetization
+## 0E — Monetization
 
 ### MVP model
 
