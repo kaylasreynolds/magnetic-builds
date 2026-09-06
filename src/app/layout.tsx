@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ThemeToggle from "./theme-toggle";
+import Link from "next/link";
 
 export const metadata: Metadata = { title: "Magnetic Builds", description: "A workspace for real magnetic tile builds." };
 
@@ -29,7 +30,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <header>
           <div className="site-header-inner">
-            <strong>Magnetic Builds</strong>
+            <Link className="site-brand" href="/">Magnetic Builds</Link>
+            <nav aria-label="Primary navigation"><Link href="/collection">Collection</Link><Link href="/builds">My Builds</Link></nav>
             <ThemeToggle />
           </div>
         </header>

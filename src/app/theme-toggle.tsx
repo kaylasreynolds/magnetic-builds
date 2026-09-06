@@ -12,6 +12,8 @@ export default function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
+    // Hydration must begin with the same label as SSR, then reflect the inline theme script.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(getAppliedTheme());
   }, []);
 
