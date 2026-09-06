@@ -19,9 +19,9 @@ Locked reference:
 
 The Slice 2 visual/layout implementation should not be changed unless the slice is explicitly reopened.
 
-## Slice 3: Collection editing — in progress
+## Slice 3: Collection editing — complete and production-verified
 
-Scope:
+Implemented:
 - add seeded/catalog sets to the primary collection
 - add another copy of an already-owned set by incrementing quantity
 - change quantity owned for an existing set
@@ -34,7 +34,19 @@ Implementation rule:
 - piece inventory remains derived from owned set contents plus inventory adjustments
 - no separate persistent inventory total is introduced
 
-Still deferred beyond Slice 3:
-- inventory-adjustment controls
+## Slice 4: Manual inventory adjustments — in progress
+
+Scope:
+- correct the actual quantity of an existing piece from `/collection/pieces`
+- preserve the calculated set-derived quantity
+- store only the correction delta in `inventory_adjustments`
+- immediately refresh collection and inventory totals after a correction
+- keep correction history additive rather than overwriting prior adjustments
+
+Current Slice 4 boundary:
+- correct quantities for pieces already present in the collection inventory
+
+Still deferred beyond the current Slice 4 boundary:
+- adding loose/individually purchased pieces that are not already present in inventory
 - authentication/user-specific collection resolution
 - broad catalog ingestion beyond the curated seeded set library
