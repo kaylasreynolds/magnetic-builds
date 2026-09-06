@@ -1,5 +1,9 @@
 # Milestone 1 — My Collection
 
+**Status: complete and production-verified**
+
+Milestone 1 is complete. The user can add actual magnetic tile sets, see the resulting derived piece inventory, correct inaccurate quantities, add loose pieces, and retain the collection across refresh/restart without creating a second inventory source of truth.
+
 ## Slice 1: Collection overview — complete
 
 Established the functional collection read path:
@@ -43,9 +47,9 @@ Implemented:
 - immediately refresh collection and inventory totals after a correction
 - keep correction history additive rather than overwriting prior adjustments
 
-## Slice 5: Add loose pieces — in progress
+## Slice 5: Add loose pieces — complete and production-verified
 
-Scope:
+Implemented:
 - add loose or individually purchased pieces from `/collection/pieces`
 - select from known piece definitions already in the Magnetic Builds catalog
 - optionally record a color
@@ -58,7 +62,20 @@ Implementation rule:
 - loose pieces remain additive adjustments to the derived inventory model
 - user-created piece definitions remain out of scope for Personal Alpha
 
-Still deferred beyond Slice 5:
+## Milestone 1 acceptance verification
+
+The Milestone 1 acceptance criteria in `docs/implementation_plan.md` are satisfied:
+
+1. The application opens and the collection workflow is available.
+2. The user can add actual seeded magnetic tile sets and change owned copy counts.
+3. Owned set contents are translated into derived piece quantities.
+4. The user can correct inaccurate quantities and add loose pieces.
+5. Collection ownership and adjustments persist in D1 across refresh/restart.
+6. The collection is presented through user-facing set and piece inventory views without requiring raw database inspection.
+
+Nice-to-have items such as piece imagery, collection search/filtering, and contribution tracing remain non-blocking by definition.
+
+Deferred beyond Milestone 1:
 - authentication/user-specific collection resolution
 - broad catalog ingestion beyond the curated seeded piece/set library
 - user-created custom piece definitions
