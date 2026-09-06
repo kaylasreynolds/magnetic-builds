@@ -21,6 +21,11 @@ function compactPieceLabel(pieceName: string, familyName: string) {
   return name;
 }
 
+function shouldShowColor(pieceLabel: string, color: string | null) {
+  if (!color) return false;
+  return pieceLabel.trim().toLowerCase() !== color.trim().toLowerCase();
+}
+
 export default function PieceInventoryEditor({ pieces, pieceCatalog }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -140,7 +145,7 @@ export default function PieceInventoryEditor({ pieces, pieceCatalog }: Props) {
                         <div className="piece-symbol" aria-hidden="true">◇</div>
                         <div className="piece-row-copy">
                           <strong>{pieceLabel}</strong>
-                          {piece.color ? <span>{piece.color}</span> : null}
+                          {shouldShowColor(pieceLabel, piece.color) ? <span>{piece.color}</span> : null}
                         </div>
                         <div className="piece-count piece-count-actions">
                           <strong>{piece.usableQuantity}</strong>
@@ -181,7 +186,7 @@ export default function PieceInventoryEditor({ pieces, pieceCatalog }: Props) {
                 <p className="section-kicker">Update Count</p>
                 <h2 id="piece-adjust-title">{selected.pieceFamilyName}</h2>
                 <p className="piece-definition-label">{compactPieceLabel(selected.pieceName, selected.pieceFamilyName)}</p>
-                {selected.color ? <p>{selected.color}</p> : null}
+                {shouldShowColor(compactPieceLabel(selected.pieceName, selected.pieceFamilyName), selected.color) ? <p>{selected.color}</p> : null}
               </div>
               <button type="button" className="sheet-close" onClick={closeEditor} aria-label="Close">×</button>
             </div>
