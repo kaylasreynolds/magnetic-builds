@@ -1,8 +1,8 @@
-# Magnetic Builds — Initial Database Schema
+# Tileable — Initial Database Schema
 
 ## Purpose
 
-This document translates the conceptual model in `data_model.md` into the first practical database schema for Magnetic Builds.
+This document translates the conceptual model in `data_model.md` into the first practical database schema for Tileable.
 
 The initial schema should support the Personal Alpha while preserving a reasonable path toward the broader product vision.
 
@@ -614,7 +614,7 @@ If stronger relational constraints become valuable later, media relationships ca
 
 ## Source & Confidence Conventions
 
-Magnetic Builds should use consistent source and confidence values across the schema wherever practical.
+Tileable should use consistent source and confidence values across the schema wherever practical.
 
 These values should initially be enforced in application logic or shared enums rather than requiring separate lookup tables.
 
@@ -870,7 +870,7 @@ Additional indexes should be added based on observed query patterns rather than 
 
 ## Personal Alpha Schema Boundaries
 
-The first working version of Magnetic Builds should implement only the schema necessary to support the primary personal workflow.
+The first working version of Tileable should implement only the schema necessary to support the primary personal workflow.
 
 ### Required for Personal Alpha
 
@@ -957,7 +957,7 @@ An Alpha Build saved with:
 - Results
 - Modifications
 
-should still be usable later when Magnetic Builds gains:
+should still be usable later when Tileable gains:
 
 - Instructions
 - 3D models
@@ -998,5 +998,4 @@ Inspiration / Build / Version / Attempt / Modification
 
 This schema is intentionally compact.
 
-It supports the first useful Magnetic Builds experience while preserving a path toward the broader conceptual model.
-
+It supports the first useful Tileable experience while preserving a path toward the broader conceptual model.
