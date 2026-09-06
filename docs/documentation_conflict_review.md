@@ -8,21 +8,24 @@ This review records places where the newly approved Tileable legal/IP/privacy po
 
 ## Conflict 1 — Product name: Magnetic Builds → Tileable
 
-### Current documentation
+### Decision
 
-`prd.md`, `data_model.md`, `schema.md`, and `implementation_plan.md` use **Magnetic Builds** as the product name throughout.
+Approved.
 
-### Approved direction
+### Resolution
 
-The product name is now **Tileable** and the project should proceed under that name.
+Product-facing documentation has been renamed from **Magnetic Builds** to **Tileable** in:
 
-### Proposed resolution
+- `prd.md`
+- `data_model.md`
+- `schema.md`
+- `implementation_plan.md`
 
-Replace product-name references from “Magnetic Builds” to “Tileable” across current product documentation while leaving repository/package/infrastructure identifiers unchanged unless separately approved.
+Repository, package, database, Cloudflare, environment, and other technical/internal identifiers remain unchanged (for example, `magnetic-builds`) until separately approved.
 
-### Review needed
+### Status
 
-Confirm whether the documentation-only rename should happen now, and whether technical identifiers such as repository name, database names, package names, Cloudflare resources, environment variables, or internal code symbols should remain `magnetic-builds` for the time being.
+**Resolved and implemented on this branch.**
 
 ---
 
@@ -196,8 +199,8 @@ No existing milestone needs replacement. Add this policy to future monetization 
 
 ## Recommended Update Order After Review
 
-1. Approve documentation-only rename to Tileable and decide whether technical identifiers stay unchanged.
-2. Approve the revised external-inspiration model.
+1. ✅ Documentation-only rename to Tileable — approved and implemented; technical/internal identifiers remain unchanged.
+2. Review and approve the revised external-inspiration model.
 3. Update `prd.md` to incorporate the approved legal/IP/privacy constraints.
 4. Update `data_model.md` for media rights/provenance and inspiration-source distinctions.
 5. Update `schema.md` only where current/future schema requirements materially change.
@@ -208,4 +211,4 @@ No existing milestone needs replacement. Add this policy to future monetization 
 
 The approved policy is recorded in `docs/legal_ip_policy.md`.
 
-The conflicting legacy requirements above remain unchanged pending explicit review/approval, as requested.
+Conflict 1 is resolved and implemented. Conflicts 2–7 remain pending explicit review/approval before any conflicting legacy requirement is replaced.
