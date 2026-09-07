@@ -9,7 +9,7 @@ export default function NewBuildPage() {
       <div>
         <p className="section-kicker">New Build</p>
         <h1>Save a Build</h1>
-        <p className="collection-subtitle">Give it a name now, or simply save it and keep moving.</p>
+        <p className="collection-subtitle">Add the photos you want to remember. A title is optional.</p>
       </div>
       <BuildForm />
     </section>
