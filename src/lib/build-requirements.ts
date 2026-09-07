@@ -1,4 +1,4 @@
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, isNull, sql } from "drizzle-orm";
 import type { MagneticBuildsDatabase } from "@/db/client";
 import { createId } from "@/db/ids";
 import {
@@ -69,7 +69,11 @@ export async function getBuildRequirementCatalog(
     })
     .from(pieceDefinitions)
     .innerJoin(pieceFamilies, eq(pieceDefinitions.pieceFamilyId, pieceFamilies.id))
-    .orderBy(asc(pieceFamilies.name), asc(pieceDefinitions.name));
+    .where(and(
+      isNull(pieceDefinitions.brandId),
+      sql`coalesce(json_extract(${pieceDefinitions.classificationJson}, '$.status'), 'active') = 'active'`,
+    ))
+    .orderBy(asc(pieceDefinitions.name));
 }
 
 export async function addBuildPieceRequirement(
