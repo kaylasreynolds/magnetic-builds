@@ -14,6 +14,7 @@ This document records the current Tileable/Magnetic Builds piece-identification 
 
 - Micro
 - Transportation / Rail
+- Transportation / Specialty Vehicle
 
 ## Standard
 
@@ -52,14 +53,15 @@ Geometry measurements are estimates unless manufacturer-measured values are avai
 ### Vehicles
 
 - Car Base — 1x2
-- Specialty Vehicle — approximately 1x1
+- Specialty Vehicle — deferred; approximately 1x1
 
 ### Road
 
 - Road Square — 1x1
 - Road Curve — 1x1
-- Ramp — 1x3
 - Finish Line — 1x0.5
+
+For the current taxonomy, the previously separate Road Ramp and Racetrack Track Slope Ramp are the same canonical physical piece. Use **Track Slope Ramp — 1x3** as the canonical name; `Ramp` remains a legacy alias.
 
 ### Racetrack
 
@@ -68,9 +70,10 @@ Geometry measurements are estimates unless manufacturer-measured values are avai
 - Three-Way Split — 2x3
 - Track Curve — 2x2
 - Two-Way Split — 2x3
-- Track Slope Ramp — 1x3
-- Track Base 2x1 — 2x1, one continuous tile with no center magnet/divider
-- Track Support — vertical structural support
+- Track Slope Ramp — 1x3; alias: Ramp
+- Track Support — 1x1.5
+
+Track Base 2x1 is not part of the active taxonomy.
 
 ### Rail — deferred
 
@@ -92,6 +95,18 @@ Geometry measurements are estimates unless manufacturer-measured values are avai
 - Micro Right Triangle
 
 Manufacturer-specific branded terms should be stored as aliases/source metadata, not canonical taxonomy names.
+
+## Final visual reference authority
+
+The finalized family reference sheets stored in `/resources/` are the canonical visual authority for active piece silhouette, relative proportion, openings, and construction cues:
+
+- Standard — `resources/family_standard.png`
+- Geometry — `resources/family_geometry.png`
+- Structural XL — `resources/family_xl.png`
+- Accents — `resources/family_accents.png`
+- Transportation — `resources/family_transportation.png`
+
+The taxonomy and recognition metadata should agree with these files. Older exploratory renders or external reference images should not override them unless a newer reference is explicitly designated as final.
 
 ## Recognition model
 
