@@ -98,7 +98,15 @@ Manufacturer-specific branded terms should be stored as aliases/source metadata,
 
 ## Final visual reference authority
 
-The finalized family reference sheets for Standard, Geometry, Structural XL, Accents, and Transportation are the visual authority for active piece silhouette, relative proportion, openings, and construction cues. The taxonomy and recognition metadata should agree with those references; older exploratory renders should not override them.
+The finalized family reference sheets stored in `/resources/` are the canonical visual authority for active piece silhouette, relative proportion, openings, and construction cues:
+
+- Standard — `resources/family_standard.png`
+- Geometry — `resources/family_geometry.png`
+- Structural XL — `resources/family_xl.png`
+- Accents — `resources/family_accents.png`
+- Transportation — `resources/family_transportation.png`
+
+The taxonomy and recognition metadata should agree with these files. Older exploratory renders or external reference images should not override them unless a newer reference is explicitly designated as final.
 
 ## Recognition model
 
