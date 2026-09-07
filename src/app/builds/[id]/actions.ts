@@ -4,6 +4,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { revalidatePath } from "next/cache";
 import { getDatabase } from "@/db/client";
 import { createId } from "@/db/ids";
+import { addBuildPieceRequirement, removeBuildPieceRequirement } from "@/lib/build-requirements";
 import { addPhotosToBuildVersion, getBuild, removeBuildPhoto, setBuildCoverPhoto, updateBuildDetails, type NewBuildPhoto } from "@/lib/builds";
 
 export type BuildEditState = { error: string | null; success: string | null };
@@ -32,6 +33,36 @@ export async function updateBuildAction(buildId: string, _state: BuildEditState,
     revalidatePath(`/builds/${buildId}`); revalidatePath("/builds");
     return { error: null, success: "Build updated." };
   } catch (error) { console.error("Unable to update build", error); return { error: "We couldn’t update this build. Please try again.", success: null }; }
+}
+
+export async function addBuildRequirementAction(buildId: string, _state: BuildEditState, formData: FormData): Promise<BuildEditState> {
+  const pieceDefinitionId = normalizeOptional(formData.get("pieceDefinitionId"), 160);
+  const quantity = Number(formData.get("quantity"));
+  if (!pieceDefinitionId) return { error: "Choose a piece.", success: null };
+  if (!Number.isInteger(quantity) || quantity < 1) return { error: "Enter a quantity of at least 1.", success: null };
+  try {
+    const { DB } = await getEnv();
+    const db = getDatabase(DB);
+    const build = await getBuild(db, buildId);
+    if (!build?.preferredVersionId) return { error: "This build does not have a current version.", success: null };
+    await addBuildPieceRequirement(db, build.preferredVersionId, { pieceDefinitionId, quantity });
+    revalidatePath(`/builds/${buildId}`); revalidatePath("/builds");
+    return { error: null, success: "Piece requirement added." };
+  } catch (error) {
+    console.error("Unable to add build requirement", error);
+    return { error: "We couldn’t add that piece requirement. Please try again.", success: null };
+  }
+}
+
+export async function removeBuildRequirementAction(buildId: string, requirementId: string): Promise<void> {
+  try {
+    const { DB } = await getEnv();
+    const db = getDatabase(DB);
+    const build = await getBuild(db, buildId);
+    if (!build?.preferredVersionId) return;
+    await removeBuildPieceRequirement(db, build.preferredVersionId, requirementId);
+    revalidatePath(`/builds/${buildId}`); revalidatePath("/builds");
+  } catch (error) { console.error("Unable to remove build requirement", error); }
 }
 
 export async function addBuildPhotosAction(buildId: string, _state: BuildEditState, formData: FormData): Promise<BuildEditState> {
