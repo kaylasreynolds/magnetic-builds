@@ -20,7 +20,7 @@
     "db:verify": "wrangler d1 execute magnetic-builds-production --remote --config wrangler.toml --file seeds/verify.sql"
   },
   "dependencies": {
-    "drizzle-orm": "^0.44.5",
+    "drizzle-orm": "^0.45.2",
     "next": "^16.2.12",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
