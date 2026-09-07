@@ -25,6 +25,7 @@
 .build-form input[type="text"]:focus { outline: 3px solid color-mix(in srgb, var(--accent) 25%, transparent); border-color: var(--text-muted); }
 .build-form-help { margin: 0 0 .3rem; color: var(--text-secondary); font-size: .78rem !important; }
 .build-error { margin: 0; color: var(--accent); font-size: .82rem !important; font-weight: 700; }
+.build-success { margin: 0; color: var(--text-secondary); font-size: .82rem !important; font-weight: 800; }
 .build-photo-field { display: grid; gap: .5rem; }
 .build-photo-label-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
 .build-photo-label-row label { flex: 1; }
@@ -38,15 +39,10 @@
 .build-photo-preview { position: relative; aspect-ratio: 1; overflow: hidden; border: 1px solid var(--border-soft); border-radius: .8rem; background: var(--surface-muted); }
 .build-photo-preview img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .build-photo-preview button { position: absolute; top: .35rem; right: .35rem; width: 1.8rem; height: 1.8rem; display: grid; place-items: center; border: 0; border-radius: 999px; background: color-mix(in srgb, var(--surface) 88%, transparent); color: var(--text); font-size: 1.2rem; line-height: 1; box-shadow: var(--shadow); cursor: pointer; }
-.cover-badge { position: absolute; left: .35rem; bottom: .35rem; padding: .2rem .42rem; border-radius: 999px; background: color-mix(in srgb, var(--surface) 88%, transparent); color: var(--text); font-size: .62rem; font-weight: 800; text-transform: uppercase; }
+.cover-badge { padding: .2rem .42rem; border-radius: 999px; background: color-mix(in srgb, var(--surface) 88%, transparent); color: var(--text); font-size: .62rem; font-weight: 800; text-transform: uppercase; }
+.build-photo-preview .cover-badge { position: absolute; left: .35rem; bottom: .35rem; }
 .build-detail-shell { width: 100%; max-width: 42rem; margin-inline: auto; }
-.build-detail-shell h1 {
-  max-width: 22ch;
-  overflow-wrap: anywhere;
-  font-size: clamp(1.85rem, 7vw, 2.75rem);
-  line-height: 1.02;
-  letter-spacing: -.045em;
-}
+.build-detail-shell h1 { max-width: 22ch; overflow-wrap: anywhere; font-size: clamp(1.85rem, 7vw, 2.75rem); line-height: 1.02; letter-spacing: -.045em; }
 .build-detail-media { min-height: 10.5rem; border: 1px dashed var(--border); border-radius: 1.15rem; }
 .build-detail-media strong { color: var(--text); }
 .build-photo-gallery { display: grid; gap: .6rem; }
@@ -59,10 +55,35 @@
 .build-metadata div { min-width: 0; padding: .65rem .55rem; border: 1px solid var(--border-soft); border-radius: .85rem; background: var(--surface); text-align: center; }
 .build-metadata dt { color: var(--text-muted); font-size: .65rem; font-weight: 800; text-transform: uppercase; }
 .build-metadata dd { margin: .15rem 0 0; font-size: .76rem; font-weight: 800; line-height: 1.2; text-transform: capitalize; }
+.build-edit-stack { display: grid; gap: .8rem; }
+.build-edit-heading { display: flex; align-items: start; justify-content: space-between; gap: .8rem; }
+.build-edit-heading h2 { margin: 0; font-size: 1rem; }
+.build-edit-heading p { margin: .2rem 0 0; color: var(--text-secondary); font-size: .76rem; }
+.build-edit-toggle { width: auto; min-width: 4.5rem; padding-inline: .8rem; }
+.build-edit-form, .build-photo-manager, .build-detail-copy { display: grid; gap: .65rem; padding: .9rem; border: 1px solid var(--border-soft); border-radius: 1rem; background: var(--surface); }
+.build-edit-form label { font-size: .82rem; font-weight: 800; }
+.build-edit-form label span { float: right; color: var(--text-muted); font-size: .7rem; font-weight: 600; }
+.build-edit-form input, .build-edit-form textarea, .build-edit-form select { width: 100%; padding: .7rem .75rem; border: 1px solid var(--border); border-radius: .75rem; background: var(--surface-soft); color: var(--text); font: inherit; }
+.build-edit-form textarea { resize: vertical; }
+.build-detail-copy div + div { padding-top: .6rem; border-top: 1px solid var(--border-soft); }
+.build-detail-copy span { color: var(--text-muted); font-size: .66rem; font-weight: 800; text-transform: uppercase; }
+.build-detail-copy p { margin: .18rem 0 0; color: var(--text-secondary); font-size: .82rem; white-space: pre-wrap; }
+.build-photo-manager { gap: .8rem; }
+.build-manage-photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+.build-manage-photo { overflow: hidden; border: 1px solid var(--border-soft); border-radius: .8rem; background: var(--surface-soft); }
+.build-manage-photo > img { width: 100%; aspect-ratio: 1; display: block; object-fit: cover; }
+.build-photo-actions { min-height: 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: .35rem; padding: .4rem; }
+.build-photo-actions form { margin: 0; }
+.build-photo-actions button { border: 0; padding: .3rem .15rem; background: transparent; color: var(--text-secondary); font-size: .68rem; font-weight: 800; cursor: pointer; }
+.build-photo-actions .danger-link { color: var(--accent); }
+.build-add-photo-form { display: grid; gap: .55rem; padding-top: .2rem; }
+.build-add-photo-form input[type="file"] { width: 100%; color: var(--text-secondary); font-size: .75rem; }
+.build-add-photo-form .secondary-action { width: 100%; }
 @media (min-width: 44rem) {
   .builds-heading { grid-template-columns: 1fr auto; align-items: end; }
   .builds-heading .primary-action { width: auto; min-width: 10rem; }
   .build-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .build-detail-shell h1 { font-size: clamp(2.25rem, 4.5vw, 3rem); }
   .build-photo-previews { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .build-manage-photo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
