@@ -59,10 +59,10 @@ export default async function BuildDetailPage({ params }: { params: Promise<{ id
             {buildability.requirements.map((item) => (
               <div className="buildability-row" key={item.requirementId}>
                 <strong>{item.label}</strong>
-                {item.required == null || item.available == null || item.missing == null ? (
+                {item.required == null || item.missing == null ? (
                   <span>Unknown</span>
                 ) : (
-                  <span>{item.required} needed · {item.available} available{item.missing > 0 ? ` · ${item.missing} missing` : ""}</span>
+                  <span>{item.required} needed{item.missing > 0 ? ` · ${item.missing} missing` : ""}</span>
                 )}
               </div>
             ))}
