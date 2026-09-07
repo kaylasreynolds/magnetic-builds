@@ -1,9 +1,21 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import favicon from "../../assets/logos/tileable_favicon.png";
+import appIcon from "../../assets/logos/tileable_icon.png";
+import logo from "../../assets/logos/tileable_logo.png";
 import "./globals.css";
 import ThemeToggle from "./theme-toggle";
-import Link from "next/link";
 
-export const metadata: Metadata = { title: "Magnetic Builds", description: "A workspace for real magnetic tile builds." };
+export const metadata: Metadata = {
+  title: "Tileable",
+  description: "A workspace for real magnetic tile builds.",
+  icons: {
+    icon: favicon.src,
+    shortcut: favicon.src,
+    apple: appIcon.src,
+  },
+};
 
 const themeScript = `
 (() => {
@@ -30,7 +42,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <header>
           <div className="site-header-inner">
-            <Link className="site-brand" href="/">Magnetic Builds</Link>
+            <Link className="site-brand" href="/" aria-label="Tileable home">
+              <Image src={logo} alt="Tileable" priority style={{ width: "auto", height: "2rem", display: "block" }} />
+            </Link>
             <nav aria-label="Primary navigation"><Link href="/collection">Collection</Link><Link href="/builds">My Builds</Link></nav>
             <ThemeToggle />
           </div>
