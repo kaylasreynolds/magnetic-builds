@@ -1,0 +1,113 @@
+.build-requirements-card,
+.buildability-card {
+  display: grid;
+  gap: .8rem;
+  padding: .9rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.build-requirement-list,
+.buildability-list {
+  display: grid;
+  gap: .45rem;
+}
+
+.build-requirement-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: .65rem;
+  padding: .65rem .7rem;
+  border: 1px solid var(--border-soft);
+  border-radius: .8rem;
+  background: var(--surface-soft);
+}
+
+.build-requirement-row strong,
+.buildability-row strong {
+  display: block;
+  font-size: .82rem;
+}
+
+.build-requirement-row span,
+.buildability-row span {
+  display: block;
+  margin-top: .12rem;
+  color: var(--text-secondary);
+  font-size: .7rem;
+}
+
+.build-requirement-quantity {
+  min-width: 2rem;
+  text-align: center;
+  font-size: .9rem;
+  font-weight: 900;
+}
+
+.build-requirement-row form { margin: 0; }
+.build-requirement-row .danger-link {
+  border: 0;
+  padding: .3rem .15rem;
+  background: transparent;
+  color: var(--accent);
+  font-size: .68rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.build-requirement-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 5.5rem;
+  gap: .45rem .55rem;
+  padding-top: .2rem;
+}
+
+.build-requirement-form label {
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.build-requirement-form select,
+.build-requirement-form input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: .65rem .7rem;
+  border: 1px solid var(--border);
+  border-radius: .75rem;
+  background: var(--surface-soft);
+  color: var(--text);
+  font: inherit;
+}
+
+.build-requirement-form .build-error,
+.build-requirement-form .build-success,
+.build-requirement-form .secondary-action {
+  grid-column: 1 / -1;
+}
+
+.buildability-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .65rem .7rem;
+  border: 1px solid var(--border-soft);
+  border-radius: .8rem;
+  background: var(--surface-soft);
+}
+
+.buildability-row span {
+  margin-top: 0;
+  text-align: right;
+}
+
+@media (max-width: 30rem) {
+  .build-requirement-form { grid-template-columns: 1fr; }
+  .build-requirement-form .build-error,
+  .build-requirement-form .build-success,
+  .build-requirement-form .secondary-action { grid-column: 1; }
+  .buildability-row { align-items: flex-start; flex-direction: column; }
+  .buildability-row span { text-align: left; }
+}
