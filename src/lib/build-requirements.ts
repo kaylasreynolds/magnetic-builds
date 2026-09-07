@@ -1,4 +1,4 @@
-import { asc, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import type { MagneticBuildsDatabase } from "@/db/client";
 import { createId } from "@/db/ids";
 import {
@@ -118,15 +118,21 @@ export async function removeBuildPieceRequirement(
   buildVersionId: string,
   requirementId: string,
 ): Promise<boolean> {
-  const existing = await db
+  const [existing] = await db
     .select({ id: buildPieceRequirements.id })
     .from(buildPieceRequirements)
-    .where(eq(buildPieceRequirements.id, requirementId))
+    .where(and(
+      eq(buildPieceRequirements.id, requirementId),
+      eq(buildPieceRequirements.buildVersionId, buildVersionId),
+    ))
     .limit(1);
-  if (existing.length === 0) return false;
+  if (!existing) return false;
 
   await db
     .delete(buildPieceRequirements)
-    .where(eq(buildPieceRequirements.id, requirementId));
+    .where(and(
+      eq(buildPieceRequirements.id, requirementId),
+      eq(buildPieceRequirements.buildVersionId, buildVersionId),
+    ));
   return true;
 }
