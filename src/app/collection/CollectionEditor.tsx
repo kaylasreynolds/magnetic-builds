@@ -109,7 +109,7 @@ export default function CollectionEditor({
         <section className="collection-shell collection-empty">
           <div>
             <h1>Start your collection</h1>
-            <p>Add the magnetic tile sets you own and Magnetic Builds will keep track of the pieces for you.</p>
+            <p>Add the magnetic tile sets you own and Tileable will keep track of the pieces for you.</p>
           </div>
           <button className="primary-action" type="button" onClick={() => setMode("add")}>
             + Add your first set
@@ -188,7 +188,7 @@ export default function CollectionEditor({
           <div>
             <p className="section-kicker">Builds You Can Make</p>
             <h2 id="builds-heading">Your collection is ready.</h2>
-            <p>Build matching is coming next. We’ll use the pieces you already own to show what you can build.</p>
+            <p>As Tileable grows, your collection will help you discover builds that match the pieces you already own.</p>
           </div>
         </section>
 
