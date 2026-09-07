@@ -30,7 +30,6 @@ export default function BuildRequirements({ buildId, requirements, catalog }: Pr
             <div className="build-requirement-row" key={requirement.id}>
               <div>
                 <strong>{requirement.pieceDefinitionName ?? requirement.pieceFamilyName ?? "Unknown piece"}</strong>
-                <span>{requirement.pieceDefinitionId ? "Exact piece" : "Compatible family"}</span>
               </div>
               <div className="build-requirement-quantity">{requirement.quantity ?? "?"}</div>
               <form action={removeBuildRequirementAction.bind(null, buildId, requirement.id)}>
@@ -49,7 +48,7 @@ export default function BuildRequirements({ buildId, requirements, catalog }: Pr
           <option value="" disabled>Choose a piece</option>
           {catalog.map((piece) => (
             <option key={piece.pieceDefinitionId} value={piece.pieceDefinitionId}>
-              {piece.pieceFamilyName} — {piece.pieceDefinitionName}
+              {piece.pieceDefinitionName}
             </option>
           ))}
         </select>
