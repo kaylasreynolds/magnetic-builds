@@ -1,9 +1,17 @@
-import { desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
 import type { MagneticBuildsDatabase } from "@/db/client";
 import { createId } from "@/db/ids";
-import { builds, buildVersions } from "@/db/schema";
+import { builds, buildVersions, mediaAssets, mediaLinks } from "@/db/schema";
 import { makeInitialBuild } from "./build-model";
 export { displayBuildTitle, normalizeBuildTitle, UNTITLED_BUILD } from "./build-model";
+
+export type BuildPhoto = {
+  id: string;
+  mimeType: string | null;
+  altText: string | null;
+  sortOrder: number | null;
+  role: string | null;
+};
 
 export type BuildSummary = {
   id: string;
@@ -12,10 +20,30 @@ export type BuildSummary = {
   visibility: string;
   preferredVersionId: string | null;
   createdAt: Date;
+  coverPhotoId: string | null;
 };
 
-export async function listBuilds(db: MagneticBuildsDatabase): Promise<BuildSummary[]> {
+export type BuildDetail = BuildSummary & { photos: BuildPhoto[] };
+
+async function getBuildPhotos(db: MagneticBuildsDatabase, buildVersionId: string | null): Promise<BuildPhoto[]> {
+  if (!buildVersionId) return [];
+
   return db
+    .select({
+      id: mediaAssets.id,
+      mimeType: mediaAssets.mimeType,
+      altText: mediaAssets.altText,
+      sortOrder: mediaLinks.sortOrder,
+      role: mediaLinks.role,
+    })
+    .from(mediaLinks)
+    .innerJoin(mediaAssets, eq(mediaLinks.mediaAssetId, mediaAssets.id))
+    .where(and(eq(mediaLinks.entityType, "build_version"), eq(mediaLinks.entityId, buildVersionId)))
+    .orderBy(asc(mediaLinks.sortOrder), asc(mediaLinks.id));
+}
+
+export async function listBuilds(db: MagneticBuildsDatabase): Promise<BuildSummary[]> {
+  const rows = await db
     .select({
       id: builds.id,
       title: builds.title,
@@ -26,9 +54,14 @@ export async function listBuilds(db: MagneticBuildsDatabase): Promise<BuildSumma
     })
     .from(builds)
     .orderBy(desc(builds.createdAt), desc(builds.id));
+
+  return Promise.all(rows.map(async (build) => {
+    const photos = await getBuildPhotos(db, build.preferredVersionId);
+    return { ...build, coverPhotoId: photos[0]?.id ?? null };
+  }));
 }
 
-export async function getBuild(db: MagneticBuildsDatabase, id: string): Promise<BuildSummary | null> {
+export async function getBuild(db: MagneticBuildsDatabase, id: string): Promise<BuildDetail | null> {
   const [build] = await db
     .select({
       id: builds.id,
@@ -41,7 +74,10 @@ export async function getBuild(db: MagneticBuildsDatabase, id: string): Promise<
     .from(builds)
     .where(eq(builds.id, id))
     .limit(1);
-  return build ?? null;
+  if (!build) return null;
+
+  const photos = await getBuildPhotos(db, build.preferredVersionId);
+  return { ...build, coverPhotoId: photos[0]?.id ?? null, photos };
 }
 
 /** D1 batches are transactions: every statement commits, or the entire batch rolls back. */
@@ -57,5 +93,51 @@ export async function createBuild(db: MagneticBuildsDatabase, title: string | nu
     db.update(builds).set({ preferredVersionId: versionId, updatedAt: now }).where(eq(builds.id, buildId)),
   ]);
 
+  return buildId;
+}
+
+export type NewBuildPhoto = {
+  id: string;
+  storageKey: string;
+  mimeType: string;
+  sortOrder: number;
+};
+
+export async function createBuildWithPhotos(
+  db: MagneticBuildsDatabase,
+  title: string | null,
+  buildId: string,
+  versionId: string,
+  photos: NewBuildPhoto[],
+): Promise<string> {
+  const now = new Date();
+  const records = makeInitialBuild(title, buildId, versionId, now);
+  const statements = [
+    db.insert(builds).values(records.build),
+    db.insert(buildVersions).values(records.version),
+    ...photos.flatMap((photo) => [
+      db.insert(mediaAssets).values({
+        id: photo.id,
+        assetType: "image",
+        storageKey: photo.storageKey,
+        mimeType: photo.mimeType,
+        sourceType: "user_upload",
+        createdAt: now,
+        updatedAt: now,
+      }),
+      db.insert(mediaLinks).values({
+        id: createId(),
+        mediaAssetId: photo.id,
+        entityType: "build_version",
+        entityId: versionId,
+        role: photo.sortOrder === 0 ? "cover" : "gallery",
+        sortOrder: photo.sortOrder,
+        createdAt: now,
+      }),
+    ]),
+    db.update(builds).set({ preferredVersionId: versionId, updatedAt: now }).where(eq(builds.id, buildId)),
+  ];
+
+  await db.batch(statements);
   return buildId;
 }
