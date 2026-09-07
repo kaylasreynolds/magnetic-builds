@@ -5,15 +5,30 @@ import { builds, buildVersions, mediaAssets, mediaLinks } from "@/db/schema";
 import { makeInitialBuild } from "./build-model";
 export { displayBuildTitle, normalizeBuildTitle, UNTITLED_BUILD } from "./build-model";
 
-export type BuildPhoto = { id: string; storageKey: string | null; mimeType: string | null; altText: string | null; sortOrder: number | null; role: string | null };
-export type BuildSummary = { id: string; title: string | null; status: string; visibility: string; preferredVersionId: string | null; createdAt: Date; coverPhotoId: string | null };
-export type BuildDetail = BuildSummary & { description: string | null; notes: string | null; photos: BuildPhoto[] };
+export type BuildPhoto = {
+  id: string;
+  storageKey: string | null;
+  mimeType: string | null;
+  altText: string | null;
+  sortOrder: number | null;
+  role: string | null;
+};
 
-function readNotes(metadata: unknown): string | null {
-  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) return null;
-  const value = (metadata as Record<string, unknown>).notes;
-  return typeof value === "string" && value.trim() ? value : null;
-}
+export type BuildSummary = {
+  id: string;
+  title: string | null;
+  status: string;
+  visibility: string;
+  preferredVersionId: string | null;
+  createdAt: Date;
+  coverPhotoId: string | null;
+};
+
+export type BuildDetail = BuildSummary & {
+  description: string | null;
+  notes: string | null;
+  photos: BuildPhoto[];
+};
 
 async function getBuildPhotos(db: MagneticBuildsDatabase, buildVersionId: string | null): Promise<BuildPhoto[]> {
   if (!buildVersionId) return [];
@@ -24,17 +39,16 @@ async function getBuildPhotos(db: MagneticBuildsDatabase, buildVersionId: string
 }
 
 export async function listBuilds(db: MagneticBuildsDatabase): Promise<BuildSummary[]> {
-  const rows = await db.select({ id: builds.id, title: builds.title, status: builds.status, visibility: builds.visibility, preferredVersionId: builds.preferredVersionId, createdAt: builds.createdAt })
-    .from(builds).orderBy(desc(builds.createdAt), desc(builds.id));
-  return Promise.all(rows.map(async (build) => { const photos = await getBuildPhotos(db, build.preferredVersionId); return { ...build, coverPhotoId: photos[0]?.id ?? null }; }));
+  const rows = await db.select({ id: builds.id, title: builds.title, status: builds.status, visibility: builds.visibility, preferredVersionId: builds.preferredVersionId, createdAt: builds.createdAt }).from(builds).orderBy(desc(builds.createdAt), desc(builds.id));
+  return Promise.all(rows.map(async (build) => ({ ...build, coverPhotoId: (await getBuildPhotos(db, build.preferredVersionId))[0]?.id ?? null })));
 }
 
 export async function getBuild(db: MagneticBuildsDatabase, id: string): Promise<BuildDetail | null> {
-  const [build] = await db.select({ id: builds.id, title: builds.title, description: builds.description, status: builds.status, visibility: builds.visibility, preferredVersionId: builds.preferredVersionId, metadataJson: builds.metadataJson, createdAt: builds.createdAt })
-    .from(builds).where(eq(builds.id, id)).limit(1);
+  const [build] = await db.select({ id: builds.id, title: builds.title, description: builds.description, status: builds.status, visibility: builds.visibility, preferredVersionId: builds.preferredVersionId, metadataJson: builds.metadataJson, createdAt: builds.createdAt }).from(builds).where(eq(builds.id, id)).limit(1);
   if (!build) return null;
+  const metadata = (build.metadataJson ?? {}) as Record<string, unknown>;
   const photos = await getBuildPhotos(db, build.preferredVersionId);
-  return { id: build.id, title: build.title, description: build.description, notes: readNotes(build.metadataJson), status: build.status, visibility: build.visibility, preferredVersionId: build.preferredVersionId, createdAt: build.createdAt, coverPhotoId: photos[0]?.id ?? null, photos };
+  return { id: build.id, title: build.title, description: build.description, notes: typeof metadata.notes === "string" ? metadata.notes : null, status: build.status, visibility: build.visibility, preferredVersionId: build.preferredVersionId, createdAt: build.createdAt, coverPhotoId: photos[0]?.id ?? null, photos };
 }
 
 export async function createBuild(db: MagneticBuildsDatabase, title: string | null): Promise<string> {
@@ -49,7 +63,8 @@ export async function createBuildWithPhotos(db: MagneticBuildsDatabase, title: s
   if (photos.length === 0) return createBuild(db, title);
   const now = new Date(); const records = makeInitialBuild(title, buildId, versionId, now);
   await db.batch([
-    db.insert(builds).values(records.build), db.insert(buildVersions).values(records.version),
+    db.insert(builds).values(records.build),
+    db.insert(buildVersions).values(records.version),
     db.insert(mediaAssets).values(photos.map((photo) => ({ id: photo.id, assetType: "image", storageKey: photo.storageKey, mimeType: photo.mimeType, sourceType: "user_upload", createdAt: now, updatedAt: now }))),
     db.insert(mediaLinks).values(photos.map((photo) => ({ id: createId(), mediaAssetId: photo.id, entityType: "build_version", entityId: versionId, role: photo.sortOrder === 0 ? "cover" : "gallery", sortOrder: photo.sortOrder, createdAt: now }))),
     db.update(builds).set({ preferredVersionId: versionId, updatedAt: now }).where(eq(builds.id, buildId)),
@@ -58,9 +73,8 @@ export async function createBuildWithPhotos(db: MagneticBuildsDatabase, title: s
 }
 
 export async function updateBuildDetails(db: MagneticBuildsDatabase, id: string, values: { title: string | null; description: string | null; notes: string | null; status: string }): Promise<boolean> {
-  const [existing] = await db.select({ metadataJson: builds.metadataJson }).from(builds).where(eq(builds.id, id)).limit(1);
-  if (!existing) return false;
-  const metadata = existing.metadataJson && typeof existing.metadataJson === "object" && !Array.isArray(existing.metadataJson) ? { ...(existing.metadataJson as Record<string, unknown>) } : {};
+  const [existing] = await db.select({ metadataJson: builds.metadataJson }).from(builds).where(eq(builds.id, id)).limit(1); if (!existing) return false;
+  const metadata = { ...((existing.metadataJson ?? {}) as Record<string, unknown>) };
   if (values.notes) metadata.notes = values.notes; else delete metadata.notes;
   await db.update(builds).set({ title: values.title, description: values.description, status: values.status, metadataJson: metadata, updatedAt: new Date() }).where(eq(builds.id, id));
   return true;
@@ -78,7 +92,11 @@ export async function addPhotosToBuildVersion(db: MagneticBuildsDatabase, buildV
 export async function setBuildCoverPhoto(db: MagneticBuildsDatabase, buildVersionId: string, photoId: string): Promise<boolean> {
   const photos = await getBuildPhotos(db, buildVersionId); if (!photos.some((photo) => photo.id === photoId)) return false;
   const ordered = [photoId, ...photos.filter((photo) => photo.id !== photoId).map((photo) => photo.id)];
-  await db.batch(ordered.map((id, index) => db.update(mediaLinks).set({ role: index === 0 ? "cover" : "gallery", sortOrder: index }).where(and(eq(mediaLinks.entityType, "build_version"), eq(mediaLinks.entityId, buildVersionId), eq(mediaLinks.mediaAssetId, id)))));
+  const [firstId, ...restIds] = ordered;
+  await db.batch([
+    db.update(mediaLinks).set({ role: "cover", sortOrder: 0 }).where(and(eq(mediaLinks.entityType, "build_version"), eq(mediaLinks.entityId, buildVersionId), eq(mediaLinks.mediaAssetId, firstId))),
+    ...restIds.map((id, index) => db.update(mediaLinks).set({ role: "gallery", sortOrder: index + 1 }).where(and(eq(mediaLinks.entityType, "build_version"), eq(mediaLinks.entityId, buildVersionId), eq(mediaLinks.mediaAssetId, id)))),
+  ]);
   return true;
 }
 
@@ -89,6 +107,12 @@ export async function removeBuildPhoto(db: MagneticBuildsDatabase, buildVersionI
     db.delete(mediaAssets).where(eq(mediaAssets.id, photoId)),
   ]);
   const remaining = photos.filter((photo) => photo.id !== photoId);
-  if (remaining.length > 0) await db.batch(remaining.map((photo, index) => db.update(mediaLinks).set({ role: index === 0 ? "cover" : "gallery", sortOrder: index }).where(and(eq(mediaLinks.entityType, "build_version"), eq(mediaLinks.entityId, buildVersionId), eq(mediaLinks.mediaAssetId, photo.id)))));
+  if (remaining.length > 0) {
+    const [firstPhoto, ...restPhotos] = remaining;
+    await db.batch([
+      db.update(mediaLinks).set({ role: "cover", sortOrder: 0 }).where(and(eq(mediaLinks.entityType, "build_version"), eq(mediaLinks.entityId, buildVersionId), eq(mediaLinks.mediaAssetId, firstPhoto.id))),
+      ...restPhotos.map((photo, index) => db.update(mediaLinks).set({ role: "gallery", sortOrder: index + 1 }).where(and(eq(mediaLinks.entityType, "build_version"), eq(mediaLinks.entityId, buildVersionId), eq(mediaLinks.mediaAssetId, photo.id)))),
+    ]);
+  }
   return target;
 }
