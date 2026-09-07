@@ -8,6 +8,7 @@ import { displayBuildTitle, getBuild } from "@/lib/builds";
 import BuildEditor from "./BuildEditor";
 import BuildRequirements from "./BuildRequirements";
 import "../builds.css";
+import "./requirements.css";
 
 export const dynamic = "force-dynamic";
 
