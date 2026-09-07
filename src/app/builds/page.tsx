@@ -31,7 +31,11 @@ export default async function BuildsPage() {
         <div className="build-grid">
           {builds.map((build) => (
             <Link className="build-card" href={`/builds/${build.id}`} key={build.id}>
-              <div className="build-media-placeholder" aria-label="No build photo yet"><span>◇</span><small>Photo coming next</small></div>
+              {build.coverPhotoId ? (
+                <div className="build-card-photo"><img src={`/api/media/${build.coverPhotoId}`} alt={`${displayBuildTitle(build.title)} cover`} /></div>
+              ) : (
+                <div className="build-media-placeholder" aria-label="No build photo yet"><span>◇</span><small>No photo yet</small></div>
+              )}
               <div className="build-card-copy">
                 <div><h2>{displayBuildTitle(build.title)}</h2><p>Saved {formatSavedDate(build.createdAt)}</p></div>
                 <span className="status-pill">{build.status}</span>
