@@ -1,5 +1,5 @@
--- Milestone 0 seed catalog
--- Source data is intentionally limited to manufacturer-confirmed information.
+-- Foundation seed catalog
+-- Canonical piece families and definitions are seeded by seeds/piece-taxonomy.sql.
 -- Re-running this file is safe because every row uses a stable ID and INSERT OR IGNORE.
 
 INSERT OR IGNORE INTO brands (
@@ -13,29 +13,6 @@ INSERT OR IGNORE INTO brands (
   0,
   0
 );
-
--- Canonical broad families now live in seeds/piece-taxonomy.sql.
--- Legacy family rows are retained temporarily so existing local/remote databases
--- can migrate without breaking foreign-key references.
-INSERT OR IGNORE INTO piece_families (id, name, category, shape, created_at, updated_at) VALUES
-  ('family_standard_square', 'Standard Square', 'tile', 'square', 0, 0),
-  ('family_large_square', 'Large Square', 'tile', 'square', 0, 0),
-  ('family_equilateral_triangle', 'Equilateral Triangle', 'tile', 'triangle', 0, 0),
-  ('family_right_triangle', 'Right Triangle', 'tile', 'triangle', 0, 0),
-  ('family_isosceles_triangle', 'Isosceles Triangle', 'tile', 'triangle', 0, 0),
-  ('family_wheeled_chassis', 'Wheeled Chassis', 'vehicle', 'chassis', 0, 0);
-
--- Legacy definitions are also retained temporarily for safe migration.
-INSERT OR IGNORE INTO piece_definitions (
-  id, piece_family_id, brand_id, name, manufacturer_identifier, created_at, updated_at
-) VALUES
-  ('piece_magna_standard_square', 'family_standard_square', 'brand_magna_tiles', 'MAGNA-TILES Standard Square', NULL, 0, 0),
-  ('piece_magna_large_square', 'family_large_square', 'brand_magna_tiles', 'MAGNA-TILES Large Square', NULL, 0, 0),
-  ('piece_magna_equilateral_triangle', 'family_equilateral_triangle', 'brand_magna_tiles', 'MAGNA-TILES Equilateral Triangle', NULL, 0, 0),
-  ('piece_magna_right_triangle', 'family_right_triangle', 'brand_magna_tiles', 'MAGNA-TILES Right Triangle', NULL, 0, 0),
-  ('piece_magna_isosceles_triangle', 'family_isosceles_triangle', 'brand_magna_tiles', 'MAGNA-TILES Isosceles Triangle', NULL, 0, 0),
-  ('piece_magna_green_wheeled_chassis', 'family_wheeled_chassis', 'brand_magna_tiles', 'Green Wheeled Chassis', NULL, 0, 0),
-  ('piece_magna_yellow_wheeled_chassis', 'family_wheeled_chassis', 'brand_magna_tiles', 'Yellow Wheeled Chassis', NULL, 0, 0);
 
 INSERT OR IGNORE INTO sets (
   id, brand_id, name, set_identifier, advertised_piece_count, product_url, notes, created_at, updated_at
@@ -63,8 +40,6 @@ INSERT OR IGNORE INTO sets (
     0
   );
 
--- set_contents now targets canonical brand-neutral piece definitions.
--- Run seeds/piece-taxonomy.sql before this file on a fresh database.
 INSERT OR IGNORE INTO set_contents (
   id, set_id, piece_definition_id, quantity, color, source_type, confidence, source_url, created_at, updated_at
 ) VALUES
