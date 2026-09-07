@@ -110,34 +110,34 @@ export async function createBuildWithPhotos(
   versionId: string,
   photos: NewBuildPhoto[],
 ): Promise<string> {
+  if (photos.length === 0) return createBuild(db, title);
+
   const now = new Date();
   const records = makeInitialBuild(title, buildId, versionId, now);
-  const statements = [
+
+  await db.batch([
     db.insert(builds).values(records.build),
     db.insert(buildVersions).values(records.version),
-    ...photos.flatMap((photo) => [
-      db.insert(mediaAssets).values({
-        id: photo.id,
-        assetType: "image",
-        storageKey: photo.storageKey,
-        mimeType: photo.mimeType,
-        sourceType: "user_upload",
-        createdAt: now,
-        updatedAt: now,
-      }),
-      db.insert(mediaLinks).values({
-        id: createId(),
-        mediaAssetId: photo.id,
-        entityType: "build_version",
-        entityId: versionId,
-        role: photo.sortOrder === 0 ? "cover" : "gallery",
-        sortOrder: photo.sortOrder,
-        createdAt: now,
-      }),
-    ]),
+    db.insert(mediaAssets).values(photos.map((photo) => ({
+      id: photo.id,
+      assetType: "image",
+      storageKey: photo.storageKey,
+      mimeType: photo.mimeType,
+      sourceType: "user_upload",
+      createdAt: now,
+      updatedAt: now,
+    }))),
+    db.insert(mediaLinks).values(photos.map((photo) => ({
+      id: createId(),
+      mediaAssetId: photo.id,
+      entityType: "build_version",
+      entityId: versionId,
+      role: photo.sortOrder === 0 ? "cover" : "gallery",
+      sortOrder: photo.sortOrder,
+      createdAt: now,
+    }))),
     db.update(builds).set({ preferredVersionId: versionId, updatedAt: now }).where(eq(builds.id, buildId)),
-  ];
+  ]);
 
-  await db.batch(statements);
   return buildId;
 }
