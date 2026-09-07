@@ -23,6 +23,17 @@ export const pieceDefinitions = sqliteTable("piece_definitions", {
   notes: text("notes"), createdAt: createdAt(), updatedAt: updatedAt(),
 }, (t) => [index("piece_definitions_family_idx").on(t.pieceFamilyId), index("piece_definitions_brand_idx").on(t.brandId)]);
 
+export const pieceVariants = sqliteTable("piece_variants", {
+  id: id(), pieceDefinitionId: text("piece_definition_id").notNull().references(() => pieceDefinitions.id, { onDelete: "restrict" }),
+  name: text("name").notNull(), brandId: text("brand_id").references(() => brands.id, { onDelete: "restrict" }),
+  manufacturerIdentifier: text("manufacturer_identifier"), propertiesJson: text("properties_json", { mode: "json" }),
+  notes: text("notes"), createdAt: createdAt(), updatedAt: updatedAt(),
+}, (t) => [
+  index("piece_variants_piece_idx").on(t.pieceDefinitionId),
+  index("piece_variants_brand_idx").on(t.brandId),
+  uniqueIndex("piece_variants_identity_uidx").on(t.pieceDefinitionId, sql`coalesce(${t.brandId}, '')`, t.name),
+]);
+
 export const sets = sqliteTable("sets", {
   id: id(), brandId: text("brand_id").notNull().references(() => brands.id, { onDelete: "restrict" }), name: text("name").notNull(),
   setIdentifier: text("set_identifier"), advertisedPieceCount: integer("advertised_piece_count"), releaseYear: integer("release_year"),

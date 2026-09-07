@@ -14,6 +14,9 @@ INSERT OR IGNORE INTO brands (
   0
 );
 
+-- Canonical broad families now live in seeds/piece-taxonomy.sql.
+-- Legacy family rows are retained temporarily so existing local/remote databases
+-- can migrate without breaking foreign-key references.
 INSERT OR IGNORE INTO piece_families (id, name, category, shape, created_at, updated_at) VALUES
   ('family_standard_square', 'Standard Square', 'tile', 'square', 0, 0),
   ('family_large_square', 'Large Square', 'tile', 'square', 0, 0),
@@ -22,6 +25,7 @@ INSERT OR IGNORE INTO piece_families (id, name, category, shape, created_at, upd
   ('family_isosceles_triangle', 'Isosceles Triangle', 'tile', 'triangle', 0, 0),
   ('family_wheeled_chassis', 'Wheeled Chassis', 'vehicle', 'chassis', 0, 0);
 
+-- Legacy definitions are also retained temporarily for safe migration.
 INSERT OR IGNORE INTO piece_definitions (
   id, piece_family_id, brand_id, name, manufacturer_identifier, created_at, updated_at
 ) VALUES
@@ -59,16 +63,18 @@ INSERT OR IGNORE INTO sets (
     0
   );
 
+-- set_contents now targets canonical brand-neutral piece definitions.
+-- Run seeds/piece-taxonomy.sql before this file on a fresh database.
 INSERT OR IGNORE INTO set_contents (
   id, set_id, piece_definition_id, quantity, color, source_type, confidence, source_url, created_at, updated_at
 ) VALUES
-  ('content_classic100_standard_square', 'set_magna_classic_100', 'piece_magna_standard_square', 50, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
-  ('content_classic100_large_square', 'set_magna_classic_100', 'piece_magna_large_square', 4, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
-  ('content_classic100_equilateral_triangle', 'set_magna_classic_100', 'piece_magna_equilateral_triangle', 20, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
-  ('content_classic100_right_triangle', 'set_magna_classic_100', 'piece_magna_right_triangle', 11, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
-  ('content_classic100_isosceles_triangle', 'set_magna_classic_100', 'piece_magna_isosceles_triangle', 15, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
-  ('content_cars2_green_chassis', 'set_magna_cars_green_yellow_2', 'piece_magna_green_wheeled_chassis', 1, 'green', 'manufacturer', 'confirmed', 'https://magnatiles.com/products/cars-green-yellow-2-piece-set', 0, 0),
-  ('content_cars2_yellow_chassis', 'set_magna_cars_green_yellow_2', 'piece_magna_yellow_wheeled_chassis', 1, 'yellow', 'manufacturer', 'confirmed', 'https://magnatiles.com/products/cars-green-yellow-2-piece-set', 0, 0);
+  ('content_classic100_square', 'set_magna_classic_100', 'piece_square', 50, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
+  ('content_classic100_large_square', 'set_magna_classic_100', 'piece_large_square', 4, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
+  ('content_classic100_equilateral_triangle', 'set_magna_classic_100', 'piece_equilateral_triangle', 20, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
+  ('content_classic100_right_triangle', 'set_magna_classic_100', 'piece_right_triangle', 11, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
+  ('content_classic100_isosceles_triangle', 'set_magna_classic_100', 'piece_isosceles_triangle', 15, NULL, 'manufacturer', 'confirmed', 'https://magnatiles.com/products/magna-tiles-classic-100-piece-set', 0, 0),
+  ('content_cars2_green_car_base', 'set_magna_cars_green_yellow_2', 'piece_car_base', 1, 'green', 'manufacturer', 'confirmed', 'https://magnatiles.com/products/cars-green-yellow-2-piece-set', 0, 0),
+  ('content_cars2_yellow_car_base', 'set_magna_cars_green_yellow_2', 'piece_car_base', 1, 'yellow', 'manufacturer', 'confirmed', 'https://magnatiles.com/products/cars-green-yellow-2-piece-set', 0, 0);
 
 -- Personal Alpha starter collection. These are sets the owner confirmed they currently own.
 INSERT OR IGNORE INTO user_collections (

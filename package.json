@@ -14,8 +14,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply magnetic-builds-production --local --config wrangler.toml --persist-to .wrangler/state",
     "db:migrate": "wrangler d1 migrations apply magnetic-builds-production --remote --config wrangler.toml",
-    "db:seed:local": "wrangler d1 execute magnetic-builds-production --local --config wrangler.toml --persist-to .wrangler/state --file seeds/foundation.sql",
-    "db:seed": "wrangler d1 execute magnetic-builds-production --remote --config wrangler.toml --file seeds/foundation.sql",
+    "db:seed:local": "wrangler d1 execute magnetic-builds-production --local --config wrangler.toml --persist-to .wrangler/state --file seeds/piece-taxonomy.sql && wrangler d1 execute magnetic-builds-production --local --config wrangler.toml --persist-to .wrangler/state --file seeds/foundation.sql",
+    "db:seed": "wrangler d1 execute magnetic-builds-production --remote --config wrangler.toml --file seeds/piece-taxonomy.sql && wrangler d1 execute magnetic-builds-production --remote --config wrangler.toml --file seeds/foundation.sql",
     "db:verify:local": "wrangler d1 execute magnetic-builds-production --local --config wrangler.toml --persist-to .wrangler/state --file seeds/verify.sql",
     "db:verify": "wrangler d1 execute magnetic-builds-production --remote --config wrangler.toml --file seeds/verify.sql"
   },
