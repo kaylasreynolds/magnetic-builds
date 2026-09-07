@@ -2,8 +2,10 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDatabase } from "@/db/client";
+import { getBuildRequirementCatalog, listBuildPieceRequirements } from "@/lib/build-requirements";
 import { displayBuildTitle, getBuild } from "@/lib/builds";
 import BuildEditor from "./BuildEditor";
+import BuildRequirements from "./BuildRequirements";
 import "../builds.css";
 
 export const dynamic = "force-dynamic";
@@ -11,8 +13,15 @@ export const dynamic = "force-dynamic";
 export default async function BuildDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const { env } = await getCloudflareContext({ async: true });
-  const build = await getBuild(getDatabase((env as { DB: D1Database }).DB), id);
+  const db = getDatabase((env as { DB: D1Database }).DB);
+  const build = await getBuild(db, id);
   if (!build) notFound();
+  const [requirements, requirementCatalog] = build.preferredVersionId
+    ? await Promise.all([
+        listBuildPieceRequirements(db, build.preferredVersionId),
+        getBuildRequirementCatalog(db),
+      ])
+    : [[], []];
   const saved = new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeZone: "UTC" }).format(build.createdAt);
 
   return (
@@ -30,6 +39,7 @@ export default async function BuildDetailPage({ params }: { params: Promise<{ id
         <div><dt>Visibility</dt><dd>{build.visibility}</dd></div>
         <div><dt>Version</dt><dd>{build.preferredVersionId ? "Current version" : "Not available"}</dd></div>
       </dl>
+      {build.preferredVersionId ? <BuildRequirements buildId={build.id} requirements={requirements} catalog={requirementCatalog} /> : null}
       <BuildEditor build={build} />
     </section>
   );
