@@ -8,8 +8,8 @@ import "./globals.css";
 import ThemeToggle from "./theme-toggle";
 
 export const metadata: Metadata = {
-  title: "Tileable",
-  description: "A workspace for real magnetic tile builds.",
+  title: "Tileable | Magnetic Tile Builds",
+  description: "Discover magnetic tile builds, track your collection, and explore what you can create with the tiles you own.",
   icons: {
     icon: favicon.src,
     shortcut: favicon.src,
