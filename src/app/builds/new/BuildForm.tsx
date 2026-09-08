@@ -1,12 +1,19 @@
 "use client";
 
-import { useActionState, useEffect, useMemo, useRef, useState } from "react";
-import { createBuildAction } from "../actions";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const MAX_PHOTOS = 8;
 
+type CreateBuildResponse = {
+  buildId?: string;
+  error?: string;
+};
+
 export default function BuildForm() {
-  const [state, action, pending] = useActionState(createBuildAction, { error: null });
+  const router = useRouter();
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [files, setFiles] = useState<File[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const previews = useMemo(() => files.map((file) => ({ file, url: URL.createObjectURL(file) })), [files]);
@@ -30,8 +37,43 @@ export default function BuildForm() {
     syncInput(files.filter((_, fileIndex) => fileIndex !== index));
   }
 
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (pending) return;
+
+    setPending(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/builds", {
+        method: "POST",
+        body: new FormData(event.currentTarget),
+      });
+
+      let result: CreateBuildResponse = {};
+      try {
+        result = (await response.json()) as CreateBuildResponse;
+      } catch {
+        // A non-JSON response is handled by the generic save error below.
+      }
+
+      if (!response.ok || !result.buildId) {
+        setError(result.error ?? "We couldn’t save this build. Please try again.");
+        return;
+      }
+
+      router.push(`/builds/${result.buildId}`);
+      router.refresh();
+    } catch (saveError) {
+      console.error("Unable to save build", saveError);
+      setError("We couldn’t save this build. Please try again.");
+    } finally {
+      setPending(false);
+    }
+  }
+
   return (
-    <form action={action} className="build-form" encType="multipart/form-data">
+    <form onSubmit={handleSubmit} className="build-form" encType="multipart/form-data">
       <div className="build-photo-field">
         <div className="build-photo-label-row">
           <label htmlFor="photos">Photos <span>Optional</span></label>
@@ -68,9 +110,9 @@ export default function BuildForm() {
       ) : null}
 
       <label htmlFor="title">Title <span>Optional</span></label>
-      <input id="title" name="title" type="text" maxLength={160} autoComplete="off" placeholder="What did you build?" />
+      <input id="title" name="title" type="text" maxLength={160} autoComplete="off" placeholder="What did you build?" disabled={pending} />
       <p className="build-form-help">You can leave this blank and name your build later.</p>
-      {state.error ? <p className="build-error" role="alert">{state.error}</p> : null}
+      {error ? <p className="build-error" role="alert">{error}</p> : null}
       <button className="primary-action" type="submit" disabled={pending}>
         {pending ? "Saving…" : "Save Build"}
       </button>
