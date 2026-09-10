@@ -45,7 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Link className="site-brand" href="/" aria-label="Tileable home">
               <Image src={logo} alt="Tileable" priority style={{ width: "auto", height: "2rem", display: "block" }} />
             </Link>
-            <nav aria-label="Primary navigation"><Link href="/collection">Collection</Link><Link href="/builds">My Builds</Link></nav>
+            <nav aria-label="Primary navigation"><Link href="/collection">Collection</Link><Link href="/builds">My Builds</Link><Link href="/studio">Studio</Link></nav>
             <ThemeToggle />
           </div>
         </header>

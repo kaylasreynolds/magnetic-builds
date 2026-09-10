@@ -1,0 +1,270 @@
+.studio-shell {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.studio-page-heading,
+.studio-viewer-header,
+.studio-step-controls,
+.studio-new-pieces > div,
+.studio-count-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.studio-page-heading {
+  align-items: flex-end;
+}
+
+.studio-page-heading h1,
+.studio-viewer-header h1,
+.studio-info-card h2 {
+  margin: 0;
+}
+
+.studio-back-link {
+  flex: 0 0 auto;
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.studio-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+  gap: 1rem;
+  align-items: start;
+}
+
+.studio-viewer-card,
+.studio-info-card {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.studio-viewer-card {
+  overflow: hidden;
+}
+
+.studio-viewer-header {
+  padding: 1rem 1.1rem;
+}
+
+.studio-step-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.studio-canvas-shell {
+  position: relative;
+  min-height: 31rem;
+  background: linear-gradient(180deg, #f7f8fa 0%, #eceef2 100%);
+}
+
+.studio-canvas-shell canvas {
+  display: block;
+  width: 100%;
+  height: 31rem;
+  touch-action: none;
+  outline: none;
+}
+
+.studio-canvas-help {
+  position: absolute;
+  left: 50%;
+  bottom: 0.85rem;
+  transform: translateX(-50%);
+  z-index: 2;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(20, 22, 28, 0.76);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.studio-error {
+  display: grid;
+  place-items: center;
+  min-height: 31rem;
+  padding: 2rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.studio-step-controls {
+  min-height: 4.5rem;
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.studio-step-controls button {
+  min-height: 2.55rem;
+  padding: 0 0.95rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.studio-step-controls button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.studio-step-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.32rem;
+  flex: 1;
+}
+
+.studio-step-dots span {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.studio-step-dots span.is-complete {
+  background: color-mix(in srgb, var(--text) 48%, transparent);
+}
+
+.studio-step-dots span.is-active {
+  width: 0.65rem;
+  height: 0.65rem;
+  background: var(--text);
+}
+
+.studio-sidebar {
+  display: grid;
+  gap: 1rem;
+}
+
+.studio-info-card {
+  padding: 1rem;
+}
+
+.studio-count-list,
+.studio-new-pieces {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.8rem;
+}
+
+.studio-count-list > div,
+.studio-new-pieces > div {
+  min-height: 2.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.85rem;
+  background: var(--surface-muted);
+}
+
+.studio-count-list strong {
+  min-width: 2rem;
+  font-size: 1.1rem;
+}
+
+.studio-count-list span {
+  flex: 1;
+}
+
+.studio-new-pieces strong {
+  font-size: 1.05rem;
+}
+
+.studio-muted {
+  margin: 0.8rem 0 0;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+:root[data-theme="dark"] .studio-canvas-shell {
+  background: linear-gradient(180deg, #20242c 0%, #171a20 100%);
+}
+
+@media (max-width: 780px) {
+  .studio-page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .studio-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-canvas-shell,
+  .studio-canvas-shell canvas,
+  .studio-error {
+    min-height: 24rem;
+    height: 24rem;
+  }
+
+  .studio-sidebar {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .studio-viewer-header {
+    align-items: flex-start;
+  }
+
+  .studio-viewer-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .studio-canvas-shell,
+  .studio-canvas-shell canvas,
+  .studio-error {
+    min-height: 21rem;
+    height: 21rem;
+  }
+
+  .studio-step-controls {
+    gap: 0.55rem;
+  }
+
+  .studio-step-controls button {
+    padding-inline: 0.7rem;
+    font-size: 0.84rem;
+  }
+
+  .studio-step-dots {
+    gap: 0.22rem;
+  }
+
+  .studio-step-dots span {
+    width: 0.34rem;
+    height: 0.34rem;
+  }
+
+  .studio-step-dots span.is-active {
+    width: 0.52rem;
+    height: 0.52rem;
+  }
+
+  .studio-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-canvas-help {
+    font-size: 0.7rem;
+  }
+}
