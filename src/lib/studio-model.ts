@@ -1,4 +1,4 @@
-export type StudioPieceKind = "square" | "right-triangle" | "track-slope-ramp";
+export type StudioPieceKind = "square" | "right-triangle" | "ramp";
 
 export type StudioPlacement = {
   id: string;
@@ -15,22 +15,28 @@ export type StudioBuild = {
   placements: StudioPlacement[];
 };
 
+export const studioPalette = ["#ff5c8a", "#ffb347", "#58c6ff", "#9b7bff", "#52d273", "#ffd84d"];
+
+export const studioPieceOptions: StudioPieceKind[] = ["square", "right-triangle", "ramp"];
+
 export const studioPieceLabels: Record<StudioPieceKind, string> = {
   square: "Square",
   "right-triangle": "Right Triangle",
-  "track-slope-ramp": "Track Slope Ramp",
+  ramp: "Track Slope Ramp",
 };
 
-export const studioPieceOptions: StudioPieceKind[] = ["square", "right-triangle", "track-slope-ramp"];
+export function createBlankStudioBuild(title = "Untitled Build"): StudioBuild {
+  return { id: cryptoSafeId(), title, placements: [] };
+}
 
-export const studioPalette = ["#ff5c8a", "#ffb347", "#58c6ff", "#9b7bff", "#52d273", "#ffd84d"];
+function cryptoSafeId() {
+  return `studio-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
 
-export function createBlankStudioBuild(): StudioBuild {
-  return {
-    id: "local-studio-build",
-    title: "Untitled Build",
-    placements: [],
-  };
+export function isStudioBuild(value: unknown): value is StudioBuild {
+  if (!value || typeof value !== "object") return false;
+  const candidate = value as Partial<StudioBuild>;
+  return typeof candidate.title === "string" && Array.isArray(candidate.placements);
 }
 
 export function studioPieceCounts(build: StudioBuild) {
@@ -39,7 +45,7 @@ export function studioPieceCounts(build: StudioBuild) {
       counts[placement.piece] += 1;
       return counts;
     },
-    { square: 0, "right-triangle": 0, "track-slope-ramp": 0 },
+    { square: 0, "right-triangle": 0, ramp: 0 },
   );
 }
 
