@@ -37,7 +37,12 @@ export default async function BuildDetailPage({ params }: { params: Promise<{ id
   return (
     <section className="collection-shell builds-shell build-detail-shell">
       <Link className="back-link" href="/builds">← My Builds</Link>
-      <div><p className="section-kicker">Saved Build</p><h1>{displayBuildTitle(build.title)}</h1><p className="collection-subtitle">Saved {saved}</p></div>
+      <div>
+        <p className="section-kicker">Saved Build</p>
+        <h1>{displayBuildTitle(build.title)}</h1>
+        <p className="collection-subtitle">Saved {saved}</p>
+        <Link className="secondary-action" href={`/studio?build=${encodeURIComponent(build.id)}`}>Open in Studio</Link>
+      </div>
       {build.photos.length > 0 ? (
         <div className="build-photo-gallery">
           <div className="build-cover-photo"><img src={`/api/media/${build.photos[0].id}`} alt={build.photos[0].altText ?? `${displayBuildTitle(build.title)} cover photo`} /></div>
