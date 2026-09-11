@@ -2,7 +2,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import Link from "next/link";
 import { getDatabase } from "@/db/client";
 import { loadStudioBuild } from "@/lib/studio-builds";
-import StudioViewer from "./StudioViewer";
+import StudioEditor from "./StudioEditor";
 import "./studio.css";
 
 export const dynamic = "force-dynamic";
@@ -26,7 +26,7 @@ export default async function StudioPage({ searchParams }: { searchParams: Promi
         </div>
         <Link className="studio-back-link" href="/builds">My Builds</Link>
       </div>
-      <StudioViewer initialBuild={initialBuild} initialBuildId={buildId ?? null} />
+      <StudioEditor initialBuild={initialBuild} initialBuildId={buildId ?? null} />
     </section>
   );
 }
