@@ -58,7 +58,7 @@ export default function BuildEditor({ build }: { build: BuildDetail }) {
         ) : <p className="build-form-help">No photos saved yet.</p>}
 
         {build.photos.length < 8 ? (
-          <form action={photosAction} className="build-add-photo-form" encType="multipart/form-data">
+          <form action={photosAction} className="build-add-photo-form">
             <input id="add-photos" name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple disabled={photosPending} />
             {photosState.error ? <p className="build-error" role="alert">{photosState.error}</p> : null}
             {photosState.success ? <p className="build-success" role="status">{photosState.success}</p> : null}
