@@ -142,6 +142,12 @@ function snapTransform(node: any) {
 
 export default function StudioEditor({ initialBuild, initialBuildId }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const cameraStateRef = useRef({
+    alpha: -Math.PI / 2.5,
+    beta: Math.PI / 2.7,
+    radius: 18,
+    target: [0, 4, 0] as [number, number, number],
+  });
   const [build, setBuild] = useState<StudioBuild>(() => initialBuild ?? createBlankStudioBuild());
   const [buildId, setBuildId] = useState<string | null>(initialBuildId);
   const [step, setStep] = useState(() => initialBuild ? studioStepCount(initialBuild) : 1);
@@ -180,12 +186,29 @@ export default function StudioEditor({ initialBuild, initialBuildId }: Props) {
       scene = new B.Scene(engine);
       scene.clearColor = new B.Color4(0.965, 0.97, 0.98, 1);
 
-      const camera = new B.ArcRotateCamera("camera", -Math.PI / 2.5, Math.PI / 2.7, 18, new B.Vector3(0, 4, 0), scene);
+      const savedCamera = cameraStateRef.current;
+      const camera = new B.ArcRotateCamera(
+        "camera",
+        savedCamera.alpha,
+        savedCamera.beta,
+        savedCamera.radius,
+        new B.Vector3(...savedCamera.target),
+        scene,
+      );
       camera.lowerRadiusLimit = 7;
       camera.upperRadiusLimit = 34;
       camera.wheelPrecision = 32;
       camera.pinchPrecision = 120;
       camera.attachControl(canvasRef.current, true);
+
+      scene.onBeforeRenderObservable.add(() => {
+        cameraStateRef.current = {
+          alpha: camera.alpha,
+          beta: camera.beta,
+          radius: camera.radius,
+          target: [camera.target.x, camera.target.y, camera.target.z],
+        };
+      });
 
       const hemi = new B.HemisphericLight("hemi", new B.Vector3(0, 1, 0), scene);
       hemi.intensity = 1.05;
